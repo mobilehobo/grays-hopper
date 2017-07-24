@@ -27,7 +27,7 @@ const ExampleApp = connect(
         {user ? <WhoAmI/> : <Login/>}
       </nav>
       <main>
-        <Switch from="">
+        <Switch>
           <Route path="/jokes" component={Jokes} />
           <Redirect exact from="/" to="/jokes" />
           <Route component={NotFound} />
