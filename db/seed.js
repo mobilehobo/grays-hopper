@@ -1,37 +1,47 @@
-'use strict';
+"use strict";
 
-const db = require('APP/db'),
-  { User, Thing, Favorite, Promise } = db,
-  { mapValues } = require('lodash');
+const db = require("APP/db"),
+  { Cart, Beer, Tag, User, Thing, Favorite, ParentCompany, Promise } = db,
+  { mapValues } = require("lodash");
 
 function seedEverything() {
   const seeded = {
-    users: users(),
-    things: things()
+    things: things(),
+    carts: carts(),
+    tags: tags(),
+    parentCompany: parentCompany()
   };
 
+  seeded.beers = beers(seeded);
+  seeded.users = users(seeded);
   seeded.favorites = favorites(seeded);
 
   return Promise.props(seeded);
 }
 
-const users = seed(User, {
+const carts = seed(Cart, {});
+const tags = seed(Tag, {});
+const parentCompany = seed(ParentCompany, {});
+
+const users = seed(User, ({ carts }) => ({
   god: {
-    email: 'god@example.com',
-    name: 'So many names',
-    password: '1234'
+    email: "god@example.com",
+    name: "So many names",
+    password: "1234"
   },
   barack: {
-    name: 'Barack Obama',
-    email: 'barack@example.gov',
-    password: '1234'
+    name: "Barack Obama",
+    email: "barack@example.gov",
+    password: "1234"
   }
-});
+}));
+
+const beers = seed(Beer, ({ tags, carts, parentCompany }) => ({}));
 
 const things = seed(Thing, {
-  surfing: { name: 'surfing' },
-  smiting: { name: 'smiting' },
-  puppies: { name: 'puppies' }
+  surfing: { name: "surfing" },
+  smiting: { name: "smiting" },
+  puppies: { name: "puppies" }
 });
 
 const favorites = seed(
@@ -46,22 +56,22 @@ const favorites = seed(
   ({ users, things }) => ({
     // The easiest way to seed associations seems to be to just create rows
     // in the join table.
-    'obama loves surfing': {
+    "obama loves surfing": {
       user_id: users.barack.id, // users.barack is an instance of the User model
       // that we created in the user seed above.
       // The seed function wires the promises so that it'll
       // have been created already.
       thing_id: things.surfing.id // Same thing for things.
     },
-    'god is into smiting': {
+    "god is into smiting": {
       user_id: users.god.id,
       thing_id: things.smiting.id
     },
-    'obama loves puppies': {
+    "obama loves puppies": {
       user_id: users.barack.id,
       thing_id: things.puppies.id
     },
-    'god loves puppies': {
+    "god loves puppies": {
       user_id: users.god.id,
       thing_id: things.puppies.id
     }
@@ -84,7 +94,11 @@ class BadRow extends Error {
   }
 
   toString() {
-    return `[${this.key}] ${this.cause} while creating ${JSON.stringify(this.row, 0, 2)}`;
+    return `[${this.key}] ${this.cause} while creating ${JSON.stringify(
+      this.row,
+      0,
+      2
+    )}`;
   }
 }
 
@@ -100,13 +114,13 @@ class BadRow extends Error {
 // other models.
 function seed(Model, rows) {
   return (others = {}) => {
-    if (typeof rows === 'function') {
+    if (typeof rows === "function") {
       rows = Promise.props(
         mapValues(
           others,
           other =>
             // Is other a function? If so, call it. Otherwise, leave it alone.
-            typeof other === 'function' ? other() : other
+            typeof other === "function" ? other() : other
         )
       ).then(rows);
     }
@@ -126,7 +140,10 @@ function seed(Model, rows) {
                 )
               };
             })
-            .reduce((all, one) => Object.assign({}, all, { [one.key]: one.value }), {})
+            .reduce(
+              (all, one) => Object.assign({}, all, { [one.key]: one.value }),
+              {}
+            )
         )
       )
       .then(seeded => {

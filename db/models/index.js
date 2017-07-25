@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
 // Require our models. Running each module registers the model into sequelize
 // so any other part of the application could call sequelize.model('User')
 // to get access to the User model.
 
-const app = require('APP'),
-  debug = require('debug')(`${app.name}:models`),
+const app = require("APP"),
+  debug = require("debug")(`${app.name}:models`),
   // Our model files export functions that take a database and return
   // a model. We call these functions "meta models" (they are models of
   // models).
@@ -13,14 +13,19 @@ const app = require('APP'),
   // This lets us avoid cyclic dependencies, which can be hard to reason
   // about.
   metaModels = {
-    OAuth: require('./oauth'),
-    User: require('./user'),
-    Thing: require('./thing'),
-    Favorite: require('./favorite'),
-    Beer: require('./beer')
+
+    ParentCompany: require("./parentCompany"),
+    Beer: require("./beer"),
+    Cart: require("./cart"),
+    Tag: require("./tag"),
+    OAuth: require("./oauth"),
+    User: require("./user"),
+    Thing: require("./thing"),
+    Favorite: require("./favorite")
+
     // ---------- Add new models here ----------
   },
-  { mapValues } = require('lodash');
+  { mapValues } = require("lodash");
 
 module.exports = db => {
   // Create actual model classes by calling each meta model with the
@@ -45,8 +50,8 @@ module.exports = db => {
   */
   Object.keys(metaModels).forEach(name => {
     const { associations } = metaModels[name];
-    if (typeof associations === 'function') {
-      debug('associating model %s', name);
+    if (typeof associations === "function") {
+      debug("associating model %s", name);
       // Metamodel::associations(self: Model, others: {[name: String]: Model}) -> ()
       //
       // Associate self with others.

@@ -1,17 +1,26 @@
-'use strict';
+"use strict";
 
-const sequelize = require('sequelize');
+const sequelize = require("sequelize");
 
-module.exports = db => {
-  const Tags = db.model('tags');
+module.exports = db =>
+        const Tags = db.model('tags');
   const ParentCompany = db.model('parentCompany');
-
   db.define(
-    'beer',
+    "beer",
     {
-      name: { type: sequelize.STRING, allowNull: false, validate: { notEmpty: true } },
+      name: {
+        type: sequelize.STRING,
+        allowNull: false,
+        validate: { notEmpty: true }
+      },
+      
       price: { type: sequelize.INTEGER, allowNull: false },
-      description: { type: sequelize.TEXT, allowNull: false, validate: { notEmpty: true } },
+      description: {
+        type: sequelize.TEXT,
+        allowNull: false,
+        validate: { notEmpty: true }
+      },
+
       inventory: { type: sequelize.INTEGER, allowNull: false },
       imageURL: {
         type: sequelize.STRING,
@@ -23,11 +32,17 @@ module.exports = db => {
       ibu: { type: sequelize.INTEGER, allowNull: false },
       abv: { type: sequelize.DOUBLE, allowNull: false },
       beerType: { type: sequelize.STRING, allowNull: false },
-      country: { type: sequelize.STRING, allowNull: false, validate: { notEmpty: true } }
+
+      country: {
+        type: sequelize.STRING,
+        allowNull: false,
+        validate: { notEmpty: true }
+      }
     },
     {
       getterMethods: {
         priceRating: () => {
+
           let price = this.getDataValue('price');
           switch (price) {
             case price <= 2:
@@ -44,6 +59,7 @@ module.exports = db => {
               return 0;
           }
         }
+
       },
       defaultScope: {
         include: [Tags, ParentCompany]
@@ -52,7 +68,9 @@ module.exports = db => {
   );
 };
 
-module.exports.associations = (Beer, { ParentCompany, Tag }) => {
+module.exports.associations = (Beer, { Cart, ParentCompany, Tag }) => {
   Beer.belongsTo(ParentCompany);
-  Beer.belongsToMany(Tag, { through: BeerTag });
+  Beer.belongsToMany(Tag, { through: "BeerTag" });
+  Beer.hasMany(Cart, { onDelete: "cascade" });
+
 };
