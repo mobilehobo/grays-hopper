@@ -1,28 +1,28 @@
-'use strict';
+"use strict";
 
 // bcrypt docs: https://www.npmjs.com/package/bcrypt
-const bcrypt = require('bcryptjs'),
-  { STRING, VIRTUAL, ENUM } = require('sequelize');
+const bcrypt = require("bcryptjs"),
+  { STRING, VIRTUAL, ENUM } = require("sequelize");
 
 module.exports = db =>
   db.define(
-    'users',
+    "users",
     {
       firstName: STRING,
       lastName: STRING,
       email: {
         type: STRING,
+        unique: true,
         validate: {
           isEmail: true,
-          notEmpty: true,
-          unique: true
+          notEmpty: true
         }
       },
       address: STRING,
       userType: {
         type: ENUM,
-        values: ['Customer', 'Admin'],
-        defaultValue: 'Customer'
+        values: ["Customer", "Admin"],
+        defaultValue: "Customer"
       },
       // We support oauth, so users may or may not have passwords.
       password_digest: STRING, // This column stores the hashed password in the DB, via the beforeCreate/beforeUpdate hooks
@@ -30,13 +30,13 @@ module.exports = db =>
       primary_address: STRING
     },
     {
-      indexes: [{ fields: ['email'], unique: true }],
+      indexes: [{ fields: ["email"], unique: true }],
       hooks: {
         beforeCreate: setEmailAndPassword,
         beforeUpdate: setEmailAndPassword
       },
       defaultScope: {
-        attributes: { exclude: ['password_digest'] }
+        attributes: { exclude: ["password_digest"] }
       },
       instanceMethods: {
         // This method is a Promisified bcrypt.compare
@@ -47,14 +47,17 @@ module.exports = db =>
     }
   );
 
-module.exports.associations = (User, { OAuth, Thing, Favorite }) => {
+module.exports.associations = (User, { Cart, OAuth, Thing, Favorite }) => {
   User.hasOne(OAuth);
-  User.belongsToMany(Thing, { as: 'favorites', through: Favorite });
+  User.hasOne(Cart, { onDelete: "cascade" });
+  User.belongsToMany(Thing, { as: "favorites", through: Favorite });
 };
 
 function setEmailAndPassword(user) {
   user.email = user.email && user.email.toLowerCase();
   if (!user.password) return Promise.resolve(user);
 
-  return bcrypt.hash(user.get('password'), 10).then(hash => user.set('password_digest', hash));
+  return bcrypt
+    .hash(user.get("password"), 10)
+    .then(hash => user.set("password_digest", hash));
 }

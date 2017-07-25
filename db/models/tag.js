@@ -3,12 +3,10 @@
 const sequelize = require("sequelize");
 
 module.exports = db =>
-  db.define("cart", {
-    quantity: {
-      type: sequelize.INTEGER,
+  db.define("tag", {
+    name: {
+      type: sequelize.STRING,
       allowNull: false,
-      validate: {
-        min: 1
-      }
+      validate: { notEmpty: true }
     }
   });
