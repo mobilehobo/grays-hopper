@@ -11,6 +11,7 @@ module.exports = db => db.define('beer', {
     
     ibu: {type: sequelize.INTEGER, allowNull: false},
     abv: {type: sequelize.DOUBLE, allowNull: false},
+    beerType: {type: sequelize.STRING, allowNull: false},
     country: {type: sequelize.STRING, allowNull: false, validate: {notEmpty:true}},
 },{
     getterMethods: {
@@ -35,7 +36,7 @@ module.exports = db => db.define('beer', {
 });
 
 
-module.exports.associations = (Thing, {ParentCompany, Tag}) => {
+module.exports.associations = (Beer, {ParentCompany, Tag}) => {
     Beer.belongsTo(ParentCompany);
-    Beer.belongsToMany(Tag);
+    Beer.belongsToMany(Tag, {through: BeerTag});
 }
