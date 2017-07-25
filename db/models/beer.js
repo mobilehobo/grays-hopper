@@ -2,10 +2,8 @@
 
 const sequelize = require("sequelize");
 
-module.exports = db =>
-        const Tags = db.model('tags');
-  const ParentCompany = db.model('parentCompany');
-  db.define(
+module.exports = db => {
+  return db.define(
     "beer",
     {
       name: {
@@ -13,7 +11,7 @@ module.exports = db =>
         allowNull: false,
         validate: { notEmpty: true }
       },
-      
+
       price: { type: sequelize.INTEGER, allowNull: false },
       description: {
         type: sequelize.TEXT,
@@ -42,7 +40,6 @@ module.exports = db =>
     {
       getterMethods: {
         priceRating: () => {
-
           let price = this.getDataValue('price');
           switch (price) {
             case price <= 2:
@@ -60,9 +57,6 @@ module.exports = db =>
           }
         }
 
-      },
-      defaultScope: {
-        include: [Tags, ParentCompany]
       }
     }
   );
@@ -72,5 +66,4 @@ module.exports.associations = (Beer, { Cart, ParentCompany, Tag }) => {
   Beer.belongsTo(ParentCompany);
   Beer.belongsToMany(Tag, { through: "BeerTag" });
   Beer.hasMany(Cart, { onDelete: "cascade" });
-
 };
