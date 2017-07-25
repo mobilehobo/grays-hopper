@@ -4,7 +4,7 @@ const app = require("APP"),
   chalk = require("chalk"),
   Sequelize = require("sequelize"),
   name = (app.env.DATABASE_NAME || app.name) + (app.isTesting ? "_test" : ""),
-  url = app.env.DATABASE_URL || `postgres://localhost:5431/${name}`;
+  url = app.env.DATABASE_URL || `postgres://localhost:5432/${name}`;
 
 debug(chalk.yellow(`Opening database connection to ${url}`));
 const db = (module.exports = new Sequelize(url, {
