@@ -3,6 +3,8 @@
 const sequelize = require("sequelize");
 
 module.exports = db =>
+        const Tags = db.model('tags');
+  const ParentCompany = db.model('parentCompany');
   db.define(
     "beer",
     {
@@ -11,23 +13,26 @@ module.exports = db =>
         allowNull: false,
         validate: { notEmpty: true }
       },
+      
       price: { type: sequelize.INTEGER, allowNull: false },
       description: {
         type: sequelize.TEXT,
         allowNull: false,
         validate: { notEmpty: true }
       },
+
       inventory: { type: sequelize.INTEGER, allowNull: false },
       imageURL: {
         type: sequelize.STRING,
         defaultValue:
-          "https://www.crafthounds.com/wp-content/uploads/2016/11/No-Image-Available.png",
+          'https://www.crafthounds.com/wp-content/uploads/2016/11/No-Image-Available.png',
         validate: { notEmpty: true }
       },
 
       ibu: { type: sequelize.INTEGER, allowNull: false },
       abv: { type: sequelize.DOUBLE, allowNull: false },
       beerType: { type: sequelize.STRING, allowNull: false },
+
       country: {
         type: sequelize.STRING,
         allowNull: false,
@@ -37,7 +42,8 @@ module.exports = db =>
     {
       getterMethods: {
         priceRating: () => {
-          let price = this.getDataValue("price");
+
+          let price = this.getDataValue('price');
           switch (price) {
             case price <= 2:
               return 1;
@@ -53,12 +59,18 @@ module.exports = db =>
               return 0;
           }
         }
+
+      },
+      defaultScope: {
+        include: [Tags, ParentCompany]
       }
     }
   );
+};
 
 module.exports.associations = (Beer, { Cart, ParentCompany, Tag }) => {
   Beer.belongsTo(ParentCompany);
   Beer.belongsToMany(Tag, { through: "BeerTag" });
   Beer.hasMany(Cart, { onDelete: "cascade" });
+
 };

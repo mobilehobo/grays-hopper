@@ -13,6 +13,7 @@ const app = require("APP"),
   // This lets us avoid cyclic dependencies, which can be hard to reason
   // about.
   metaModels = {
+
     ParentCompany: require("./parentCompany"),
     Beer: require("./beer"),
     Cart: require("./cart"),
@@ -21,6 +22,7 @@ const app = require("APP"),
     User: require("./user"),
     Thing: require("./thing"),
     Favorite: require("./favorite")
+
     // ---------- Add new models here ----------
   },
   { mapValues } = require("lodash");
