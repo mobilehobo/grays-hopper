@@ -11,7 +11,7 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
-    "quotes": ["warning", "single"],
+    "quotes": [1, "single"],
     "space-before-function-paren": ["error", "never"],
     "prefer-const": "warn",
     "comma-dangle": ["error", "only-multiline"],
