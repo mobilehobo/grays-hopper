@@ -1,10 +1,10 @@
-"use strict";
+'use strict';
 
-const sequelize = require("sequelize");
+const sequelize = require('sequelize');
 
 module.exports = db => {
   return db.define(
-    "beer",
+    'beer',
     {
       name: {
         type: sequelize.STRING,
@@ -30,6 +30,7 @@ module.exports = db => {
       ibu: { type: sequelize.INTEGER, allowNull: false },
       abv: { type: sequelize.DOUBLE, allowNull: false },
       beerType: { type: sequelize.STRING, allowNull: false },
+      beerSubType: { type: sequelize.STRING, allowNull: false },
 
       country: {
         type: sequelize.STRING,
@@ -56,7 +57,6 @@ module.exports = db => {
               return 0;
           }
         }
-
       }
     }
   );
@@ -64,6 +64,6 @@ module.exports = db => {
 
 module.exports.associations = (Beer, { Cart, ParentCompany, Tag }) => {
   Beer.belongsTo(ParentCompany);
-  Beer.belongsToMany(Tag, { through: "BeerTag" });
-  Beer.hasMany(Cart, { onDelete: "cascade" });
+  Beer.belongsToMany(Tag, { through: 'BeerTag' });
+  Beer.hasMany(Cart, { onDelete: 'cascade' });
 };
