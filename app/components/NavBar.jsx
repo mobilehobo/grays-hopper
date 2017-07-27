@@ -33,7 +33,7 @@ export default class NavBar extends React.Component {
                             <a className="nav-item nav-link active" href="https://www.google.com/">Home <span className="sr-only">(current)</span></a>
                             <a className="nav-item nav-link" href="#">Breweries</a>
                             <a className="nav-item nav-link" href="#">Regions</a>
-                            <a className="nav-item nav-link" href="#">Type</a>
+                            <a className="nav-item nav-link" href="#">Types</a>
                         </div>
                     </div>
                 </nav>

@@ -40,8 +40,8 @@ module.exports = db => {
     },
     {
       getterMethods: {
-        priceRating: () => {
-          let price = this.getDataValue('price');
+        priceRating: function(){
+          let price = this.price;
           switch (price) {
             case price <= 2:
               return 1;

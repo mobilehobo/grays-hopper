@@ -1,4 +1,5 @@
 import React from "react";
+
 const SingleBeer = ({ beers, id }) => {
     const selectedBeer = beers.find(beer => beer.id === +id);
     if (!selectedBeer) return <p>Loading...</p>;
