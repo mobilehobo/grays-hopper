@@ -7,6 +7,8 @@ const { mustBeLoggedIn, forbidden } = require('./auth.filters');
 
 module.exports = require('express')
   .Router()
+  .use('/:id/cart', require('./orders'))
+  .use('/:id/orders', require('./orders'))
   .get(
     '/',
     // The forbidden middleware will fail *all* requests to list users.
