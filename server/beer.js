@@ -9,6 +9,7 @@ const Tag = db.model('tag');
 
 module.exports = require('express')
 	.Router()
+	// use .param (then we can error handle if no beer all in one place) -- KHGR
 	.get('/', (req, res, next) => {
 		Beer.findAll({
 			include: [ParentCompany, Tag]
@@ -26,7 +27,7 @@ module.exports = require('express')
 			})
 			.catch(next);
 	})
-	.post('/', (req, res, next) => {
+	.post('/', (req, res, next) => { // consider authorization here and below -- KHGR
 		Beer.create(req.body)
 			.then(newBeer => {
 				res.json(newBeer);
@@ -39,7 +40,7 @@ module.exports = require('express')
 				id: req.params.id
 			},
 			returning: true
-		}).then(updatedBeer => {
+		}).then(updatedBeer => { // array -- KHGR
 			res.json(updatedBeer).catch(next);
 		});
 	})

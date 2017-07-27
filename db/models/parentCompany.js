@@ -12,3 +12,5 @@ module.exports = db =>
       }
     }
   });
+
+// same as tags with associations -- KHGR

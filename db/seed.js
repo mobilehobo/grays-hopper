@@ -13,7 +13,7 @@ function seedEverything() {
 
 	seeded.beers = beers(seeded);
 	seeded.users = users(seeded);
-	// seeded.favorites = favorites(seeded);
+	// seeded.favorites = favorites(seeded); // delete me -- KHGR
 	seeded.beerTags = beerTags(seeded);
 	seeded.carts = carts(seeded);
 	seeded.orders = orders(seeded);

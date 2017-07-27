@@ -6,16 +6,16 @@ const bcrypt = require("bcryptjs"),
 
 module.exports = db =>
   db.define(
-    "users",
+    "users", // styling!!! Make me the same. Make me singular -- KHGR
     {
       firstName: STRING,
       lastName: STRING,
       email: {
         type: STRING,
-        unique: true,
+        unique: true, // consider oauth and handling errors that might happen -- KHGR
         validate: {
           isEmail: true,
-          notEmpty: true
+          notEmpty: true // do you need me? -- KHGR
         }
       },
       address: STRING,
@@ -50,7 +50,7 @@ module.exports = db =>
 module.exports.associations = (User, { Cart, OAuth, Thing, Favorite }) => {
   User.hasOne(OAuth);
   User.hasOne(Cart, { onDelete: "cascade" });
-  User.belongsToMany(Thing, { as: "favorites", through: Favorite });
+  User.belongsToMany(Thing, { as: "favorites", through: Favorite }); // no -- KHGR
 };
 
 function setEmailAndPassword(user) {

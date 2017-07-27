@@ -1,25 +1,26 @@
 'use strict';
 
 const sequelize = require('sequelize');
-
+  // { STRING, VIRTUAL, ENUM } = require("sequelize"); <-- incude me!!! -- KHGR
+ 
 module.exports = db => {
   return db.define(
-    'beer',
+    'beer', // consistency!!!! -- KHGR
     {
       name: {
         type: sequelize.STRING,
         allowNull: false,
-        validate: { notEmpty: true }
+        validate: { notEmpty: true } // consistency!!!! -- KHGR
       },
 
-      price: { type: sequelize.INTEGER, allowNull: false },
+      price: { type: sequelize.INTEGER, allowNull: false }, // DECIMAL(10,2) -- KHGR
       description: {
         type: sequelize.TEXT,
         allowNull: false,
         validate: { notEmpty: true }
       },
 
-      inventory: { type: sequelize.INTEGER, allowNull: false },
+      inventory: { type: sequelize.INTEGER, allowNull: false }, // min, defaultValue -- KHGR
       imageURL: {
         type: sequelize.STRING,
         defaultValue:
@@ -27,12 +28,12 @@ module.exports = db => {
         validate: { notEmpty: true }
       },
 
-      ibu: { type: sequelize.INTEGER, allowNull: false },
-      abv: { type: sequelize.DOUBLE, allowNull: false },
-      beerType: { type: sequelize.STRING, allowNull: false },
-      beerSubType: { type: sequelize.STRING, allowNull: false },
+      ibu: { type: sequelize.INTEGER, allowNull: false }, // min -- KHGR
+      abv: { type: sequelize.DOUBLE, allowNull: false }, // min/max -- KHGR
+      beerType: { type: sequelize.STRING, allowNull: false }, // assume enum or another table that is associated to beers -- KHGR
+      beerSubType: { type: sequelize.STRING, allowNull: false }, // ACTION ITEM -- KHGR
 
-      country: {
+      country: { // assume this would go to enum, and I understand why you wouldn't right now -- KHGR
         type: sequelize.STRING,
         allowNull: false,
         validate: { notEmpty: true }

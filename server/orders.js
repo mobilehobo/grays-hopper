@@ -7,8 +7,11 @@ const Beer = db.model('beer');
 module.exports = require('express')
 	.Router()
 	.get('/', (req, res, next) => {
-		Order.findAll({
+		// only want foundUser if admin -- otherwise use req.user.id (logged in individual)
+		// let query = req.foundUser ? {user_id: req.foundUser} 
+		Order.findAll({ // want the situation where admin sees all orders -- KHGR
 			where: {
+				/// query
 				user_id: req.params.id
 			},
 			include: [Beer]
@@ -16,7 +19,7 @@ module.exports = require('express')
 			.then(orders => res.json(orders))
 			.catch(next);
 	})
-	.get('/:orderId', (req, res, next) => {
+	.get('/:orderId', (req, res, next) => { // self or admin -- KHGR
 		Order.findOne({
 			where: {
 				orderId: req.params.orderId
@@ -33,7 +36,7 @@ module.exports = require('express')
 			})
 			.catch(next);
 	})
-	.put('/', (req, res, next) => {
+	.put('/', (req, res, next) => { // what should be updateable and when and by whom? -- KHGR
 		Order.update(req.body, {
 			where: {
 				user_id: req.params.id

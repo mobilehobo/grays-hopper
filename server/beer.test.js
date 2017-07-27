@@ -66,7 +66,7 @@ describe('HTTP Server', () => {
         });
       });
 
-      it('updates a user at PUT /{{usersId}}, sending a 201 response', () => {
+      it('updates a user at PUT /{{usersId}}, sending a 201 response', () => { // I think POST 201
         return agent
           .put(`/users/${obama}`)
           .send({

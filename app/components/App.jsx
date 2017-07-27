@@ -10,17 +10,19 @@ import {fetchAllBeers} from '../reducers/beer.jsx'
 
 export class App extends React.Component {
 
+    // componentWillMount and in here dispatch something to get all beers
     componentDidMount(){
         this.props.loadAllBeers();
     }
 
-    render() {
+    render() { // STYLING -- KHGR
         const beerList = this.props.beers;
         return (
             <div id='app'>
             <NavBar/>
             <Router>
                 <Switch>
+                    <Route exact path='/' component=AllBeers /> {/* connect AllBeers and send in  (in mapStateToProps) beerlist -- KHGR */}
                     
                     <Route exact path='/' 
                         render={()=> 

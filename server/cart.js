@@ -7,7 +7,7 @@ const Beer = db.model('beer');
 module.exports = require('express')
 	.Router()
 	.get('/', (req, res, next) => {
-		Cart.findOne({
+		Cart.findOne({ // ACTION ITEM (when!>!>!>) -- KHGR
 			where: {
 				user_id: req.params.id
 			},
@@ -31,7 +31,7 @@ module.exports = require('express')
 			include: [Beer],
 			returning: true
 		})
-			.then(updatedCart => {
+			.then(updatedCart => { // array -- KHGR
 				res.json(updatedCart);
 			})
 			.catch(next);
@@ -42,6 +42,6 @@ module.exports = require('express')
 				beer_id: req.params.beerId
 			}
 		}).then(() => {
-			res.sendStatus(200);
+			res.sendStatus(200); // 204 -- KHGR
 		});
 	});
