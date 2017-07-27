@@ -1,45 +1,55 @@
 'use strict';
 
 const db = require('APP/db');
-const Cart = db.model('cart');
+const Order = db.model('order');
 const Beer = db.model('beer');
 
 module.exports = require('express')
 	.Router()
 	.get('/', (req, res, next) => {
-		Cart.findOne({
+		Order.findAll({
 			where: {
 				user_id: req.params.id
 			},
 			include: [Beer]
 		})
-			.then(cart => res.json(cart))
+			.then(orders => res.json(orders))
+			.catch(next);
+	})
+	.get('/:orderId', (req, res, next) => {
+		Order.findOne({
+			where: {
+				orderId: req.params.orderId
+			},
+			include: [Beer]
+		})
+			.then(order => res.json(order))
 			.catch(next);
 	})
 	.post('/', (req, res, next) => {
-		Cart.create(req.body)
-			.then(addedItem => {
-				res.json(addedItem);
+		Order.create(req.body)
+			.then(newOrder => {
+				res.json(newOrder);
 			})
 			.catch(next);
 	})
 	.put('/', (req, res, next) => {
-		Cart.update(req.body, {
+		Order.update(req.body, {
 			where: {
 				user_id: req.params.id
 			},
 			include: [Beer],
 			returning: true
 		})
-			.then(updatedCart => {
-				res.json(updatedCart);
+			.then(updatedOrder => {
+				res.json(updatedOrder);
 			})
 			.catch(next);
 	})
-	.delete('/:beerId', (req, res, next) => {
-		Cart.destroy({
+	.delete('/', (req, res, next) => {
+		Order.destroy({
 			where: {
-				beer_id: req.params.beerId
+				user_id: req.params.id
 			}
 		}).then(() => {
 			res.sendStatus(200);
