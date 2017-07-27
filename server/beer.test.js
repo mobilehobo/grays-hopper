@@ -10,7 +10,7 @@ import sinon from 'sinon';
 
 /* global describe it before afterEach */
 
-describe('HTTP Server', () => {
+xdescribe('HTTP Server', () => {
   let agent;
   beforeEach('Set up agent for testing', () => {
     agent = supertest(app);
