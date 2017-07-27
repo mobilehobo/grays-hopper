@@ -1,7 +1,7 @@
 'use strict';
 
 const db = require('APP/db'),
-	{ Cart, Beer, Tag, BeerTag, User, Thing, Favorite, ParentCompany, Order, Promise } = db,
+	{ CartItem, Beer, Tag, BeerTag, User, Thing, Favorite, ParentCompany, OrderItem, OrderItem, Promise } = db,
 	{ mapValues } = require('lodash');
 
 function seedEverything() {
@@ -13,16 +13,19 @@ function seedEverything() {
 
 	seeded.beers = beers(seeded);
 	seeded.users = users(seeded);
-	// seeded.favorites = favorites(seeded);
 	seeded.beerTags = beerTags(seeded);
 	seeded.carts = carts(seeded);
-	seeded.orders = orders(seeded);
+	seeded.oderItems = oderItems(seeded);
 
 	return Promise.props(seeded);
 }
 
-const orders = seed(Order, ({beers, users, carts}) => ({
+const oderItems = seed(OrderItem, ({beers, users, carts}) => ({
+	'1stOder': {
+		price:
+		quantity:
 
+	}
 }));
 
 const beerTags = seed(BeerTag, ({ beers, tags }) => ({
@@ -152,7 +155,7 @@ const beerTags = seed(BeerTag, ({ beers, tags }) => ({
 	}
 }));
 
-const carts = seed(Cart, ({ beers, users }) => ({
+const carts = seed(CartItem, ({ beers, users }) => ({
 	godsCart: {
 		quantity: 1,
 		beer_id: beers.jaque.id,

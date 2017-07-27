@@ -47,9 +47,9 @@ module.exports = db =>
     }
   );
 
-module.exports.associations = (User, { Cart, OAuth, Thing, Favorite }) => {
+module.exports.associations = (User, { CartItem, OAuth, Thing, Favorite }) => {
   User.hasOne(OAuth);
-  User.hasOne(Cart, { onDelete: "cascade" });
+  User.hasOne(CartItem, { onDelete: "cascade" });
   User.belongsToMany(Thing, { as: "favorites", through: Favorite });
 };
 

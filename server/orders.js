@@ -1,7 +1,7 @@
 'use strict';
 
 const db = require('APP/db');
-const Order = db.model('order');
+const Order = db.model('orderItem');
 const Beer = db.model('beer');
 
 module.exports = require('express')

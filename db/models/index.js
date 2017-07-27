@@ -15,14 +15,14 @@ const app = require('APP'),
 	metaModels = {
 		ParentCompany: require('./parentCompany'),
 		Beer: require('./beer'),
-		Cart: require('./cart'),
+		Cart: require('./cartItem'),
 		Tag: require('./tag'),
 		OAuth: require('./oauth'),
 		User: require('./user'),
 		Thing: require('./thing'),
 		Favorite: require('./favorite'),
 		BeerTag: require('./BeerTag'),
-		Order: require('./order')
+		Order: require('./orderItem')
 
 		// ---------- Add new models here ----------
 	},
