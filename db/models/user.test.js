@@ -6,7 +6,7 @@ const db = require('APP/db'),
 
 /* global describe it before afterEach */
 
-describe('User', () => {
+xdescribe('User', () => {
   before('Await database sync', () => db.didSync);
   afterEach('Clear the tables', () => db.truncate({ cascade: true }));
 
