@@ -8,6 +8,8 @@
     margin-right: 98px
 }
 
-.allBeerImg{
+.beer-img{
+    height: 80%;
+    width: 100%;
     margin-bottom: 30px
 }
