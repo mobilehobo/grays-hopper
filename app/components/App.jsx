@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import NavBar from "./NavBar.jsx"
 import AllBeers from './AllBeers.jsx'
+import SingleBeer from './SingleBeer.jsx'
 
 import {fetchAllBeers} from '../reducers/beer.jsx'
 
@@ -20,7 +21,21 @@ export class App extends React.Component {
             <NavBar/>
             <Router>
                 <Switch>
-                    <Route path='/' render={()=> <AllBeers beerList = {beerList}/>} />
+                    
+                    <Route exact path='/' 
+                        render={()=> 
+                            <AllBeers 
+                                beerList = {beerList}
+                                />} 
+                            />
+                    
+                    <Route path='/beers/:beerId' 
+                        render={({match})=> 
+                            <SingleBeer 
+                                beerId={match.params.beerId}
+                                beerList = {beerList}
+                                />} 
+                            />
                 </Switch>
             </Router>
             </div>

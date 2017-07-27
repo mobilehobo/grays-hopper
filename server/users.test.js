@@ -1,6 +1,6 @@
-const request = require('supertest'),
-  { expect } = require('chai'),
+const { expect } = require('chai'),
   db = require('APP/db'),
+  request = require('supertest'),
   app = require('./start');
 
 /* global describe it before afterEach */
@@ -12,6 +12,10 @@ xdescribe('/api/users', () => {
   describe('GET /:id', () =>
     describe('when not logged in', () =>
       it('fails with a 401 (Unauthorized)', () => request(app).get(`/api/users/1`).expect(401))));
+
+  // describe('when logged in', () =>
+  //   it('returns user', () =>
+  //      request(app).get(`/api/users/1`).expect(401))));
 
   describe('POST', () =>
     describe('when not logged in', () => {
