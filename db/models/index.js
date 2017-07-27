@@ -5,32 +5,33 @@
 // to get access to the User model.
 
 const app = require('APP'),
-  debug = require('debug')(`${app.name}:models`),
-  // Our model files export functions that take a database and return
-  // a model. We call these functions "meta models" (they are models of
-  // models).
-  //
-  // This lets us avoid cyclic dependencies, which can be hard to reason
-  // about.
-  metaModels = {
-    ParentCompany: require('./parentCompany'),
-    Beer: require('./beer'),
-    Cart: require('./cart'),
-    Tag: require('./tag'),
-    OAuth: require('./oauth'),
-    User: require('./user'),
-    Thing: require('./thing'),
-    Favorite: require('./favorite'),
-    BeerTag: require('./BeerTag')
+	debug = require('debug')(`${app.name}:models`),
+	// Our model files export functions that take a database and return
+	// a model. We call these functions "meta models" (they are models of
+	// models).
+	//
+	// This lets us avoid cyclic dependencies, which can be hard to reason
+	// about.
+	metaModels = {
+		ParentCompany: require('./parentCompany'),
+		Beer: require('./beer'),
+		Cart: require('./cart'),
+		Tag: require('./tag'),
+		OAuth: require('./oauth'),
+		User: require('./user'),
+		Thing: require('./thing'),
+		Favorite: require('./favorite'),
+		BeerTag: require('./BeerTag'),
+		Order: require('./order')
 
-    // ---------- Add new models here ----------
-  },
-  { mapValues } = require('lodash');
+		// ---------- Add new models here ----------
+	},
+	{ mapValues } = require('lodash');
 
 module.exports = db => {
-  // Create actual model classes by calling each meta model with the
-  // database.
-  const models = mapValues(metaModels, defineModel => defineModel(db));
+	// Create actual model classes by calling each meta model with the
+	// database.
+	const models = mapValues(metaModels, defineModel => defineModel(db));
 
   /*
   At this point, all our models have been created. We just need to
@@ -48,16 +49,16 @@ module.exports = db => {
 
   https://github.com/sequelize/express-example#sequelize-setup
   */
-  Object.keys(metaModels).forEach(name => {
-    const { associations } = metaModels[name];
-    if (typeof associations === 'function') {
-      debug('associating model %s', name);
-      // Metamodel::associations(self: Model, others: {[name: String]: Model}) -> ()
-      //
-      // Associate self with others.
-      associations.call(metaModels[name], models[name], models);
-    }
-  });
+	Object.keys(metaModels).forEach(name => {
+		const { associations } = metaModels[name];
+		if (typeof associations === 'function') {
+			debug('associating model %s', name);
+			// Metamodel::associations(self: Model, others: {[name: String]: Model}) -> ()
+			//
+			// Associate self with others.
+			associations.call(metaModels[name], models[name], models);
+		}
+	});
 
-  return models;
+	return models;
 };
