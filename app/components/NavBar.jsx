@@ -1,44 +1,65 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-export default class NavBar extends React.Component {
-    render() {
-        return (
+import { Nav, NavItem, NavDropdown, MenuItem, Navbar } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 
-            <div id='app' className = 'col-lg-12'>
-                
-                <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
-                    <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
+const navBar = (props) => {
 
-                    <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div className="navbar-nav navbar-right">
-                            <a className="nav-item nav-link active" href="https://www.google.com/">Log In <span className="sr-only">(current)</span></a>
-                            <a className="nav-item nav-link" href="https://www.google.com/">Cart</a>
-                        </div>
-                    </div>
-                </nav>
-                
-                <div className="col-lg-12">
+    const breweryList = props.breweries
+
+    return (
+        <div>
+            <Row>
+                <Col md={12}>
+                    <Navbar>
+                        <Nav>
+                            <NavItem eventKey={1} href="#"> Login </NavItem>
+                            <NavItem> Cart </NavItem>
+                        </Nav>
+                    </Navbar>
+                </Col>
+            </Row>
+
+            <Row>
+                <Col md={12}>
                     <img width='100%' src="http://www.pchsweb.org/assets/header-placeholder.jpg" />
-                </div>
-                
-                <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
-                    <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
+                </Col>
+            </Row>
 
-                    <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div className="navbar-nav navbar-center">
-                            <a className="nav-item nav-link active" href="https://www.google.com/">Home <span className="sr-only">(current)</span></a>
-                            <a className="nav-item nav-link" href="#">Breweries</a>
-                            <a className="nav-item nav-link" href="#">Regions</a>
-                            <a className="nav-item nav-link" href="#">Types</a>
-                        </div>
-                    </div>
-                </nav>
-                
-            </div>
-        )
-    }
+
+            <Row>
+                <Col md={12}>
+                    <Navbar>
+                        <Nav>
+                            <LinkContainer to='/'>
+                            <NavItem>Home</NavItem>
+                            </LinkContainer>
+                            <NavDropdown title="Breweries" id="basic-nav-dropdown">
+                                {
+                                    breweryList.map(brewery => {
+                                        return (
+                                            <LinkContainer to={`/breweries/${brewery.id}`} key={brewery.id}>
+                                                <MenuItem >
+                                                    {brewery.name}
+                                                </MenuItem>
+                                            </LinkContainer>
+                                        )
+                                    })
+                                }
+                            </NavDropdown>
+                        </Nav>
+                    </Navbar>
+                </Col>
+            </Row>
+        </div>
+    )
 }
+
+const mapStateToProps = storeState => ({
+    breweries: storeState.breweries,
+})
+
+export default connect(mapStateToProps)(navBar)

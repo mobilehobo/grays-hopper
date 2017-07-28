@@ -1,20 +1,17 @@
 import React from 'react'
-import BeerItem from './BeerItem'
+import BeerItems from './BeerItems'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 
-export default class AllBeers extends React.Component {
-    render() {
-        const beerList = this.props.beerList
+import { Row, Col } from 'react-bootstrap'
 
+const AllBeers = () => {
         return (
-            <div className='col-lg-12'>
-                
-                <h3> Featured </h3>
-                <h3> All Beers </h3>
-
-                <BeerItem beerList={beerList} />
-            </div>
-
+            <Col md={12}>
+                <h3 className='title'> All Beers </h3>
+                <BeerItems />
+            </Col>
         )
     }
-}
+
+export default AllBeers

@@ -10,15 +10,13 @@ const GET_ALL_BEERS = 'GET_ALL_BEERS'
 // const DELETE_BEER,
 
 //action creator
-export const getAllBeers = (beerObjList) => {
-    const newAction = {};
-    newAction.type = GET_ALL_BEERS;
-    newAction.beerObjList = beerObjList;
-    return newAction;
-}
+export const getAllBeers = (beerObjList) => ({
+    type: GET_ALL_BEERS,
+    beerObjList: beerObjList,
+})
 
 //thunk functions
-export function fetchAllBeers () {
+export function fetchAllBeers() {
     return function (dispatch) {
         axios.get('/api/beers')
             .then(res => res.data)
@@ -30,7 +28,7 @@ export function fetchAllBeers () {
 export default function beerReducer(beers = [], action) {
     switch (action.type) {
         case GET_ALL_BEERS:
-            return [...beers, ...action.beerObjList]
+            return action.beerObjList
         default:
             return beers;
     }

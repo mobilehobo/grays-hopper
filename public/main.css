@@ -1,15 +1,35 @@
-.navbar-center {
-        float:none;
-        margin: 0 auto;
+/* .navbar-center {
+    float:none;
+    margin: 0 auto;
 }
 
 .navbar-right {
     float: right;
     margin-right: 98px
-}
+} */
 
 .beer-img{
     height: 80%;
     width: 100%;
-    margin-bottom: 30px
+    margin-bottom: 20px
+}
+
+.text-center{
+    text-align: center;
+}
+
+.beerSubType{
+    margin-top: 5px;
+    font-size: 70%;
+}
+
+.price{
+    margin-top: 5px;
+    font-size: 70%
+}
+
+.title{
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }

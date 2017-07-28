@@ -5,50 +5,43 @@ import { connect } from 'react-redux'
 import NavBar from "./NavBar.jsx"
 import AllBeers from './AllBeers.jsx'
 import SingleBeer from './SingleBeer.jsx'
+import SingleBrewery from './SingleBrewery.jsx'
 
-import {fetchAllBeers} from '../reducers/beer.jsx'
+import { fetchAllBeers } from '../reducers/beer.jsx'
+import { fetchAllBreweries } from '../reducers/parentCompany.jsx'
 
 export class App extends React.Component {
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.loadAllBeers();
+        this.props.loadAllBreweries();
     }
-
+    
     render() {
-        const beerList = this.props.beers;
         return (
-            <div id='app'>
-            <NavBar/>
+
             <Router>
-                <Switch>
-                    
-                    <Route exact path='/' 
-                        render={()=> 
-                            <AllBeers 
-                                beerList = {beerList}
-                                />} 
-                            />
-                    
-                    <Route path='/beers/:beerId' 
-                        render={({match})=> 
-                            <SingleBeer 
-                                beerId={match.params.beerId}
-                                beerList = {beerList}
-                                />} 
-                            />
-                </Switch>
+                <div id='app'>
+                    <NavBar />
+                    <Switch>
+                        <Route exact path='/' component={AllBeers} />
+                        <Route path='/beers/:beerId' component={SingleBeer} />
+                        <Route path='/breweries/:breweryId' component={SingleBrewery} /> 
+                    </Switch>
+                </div>
             </Router>
-            </div>
         )
     }
 }
 
 const mapStateToProps = storeState => ({
     beers: storeState.beers,
+    breweries: storeState.breweries,
 })
 
 const mapThunksToProps = dispatch => ({
     loadAllBeers: () => dispatch(fetchAllBeers()),
+    loadAllBreweries: () => dispatch(fetchAllBreweries())
 })
 
 export default connect(mapStateToProps, mapThunksToProps)(App)
