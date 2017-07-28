@@ -1,11 +1,12 @@
 import React from "react";
+import {connect} from 'react-redux'
 
-export default class SingleBeer extends React.Component {
-
-    render() {
-        const beerList = this.props.beerList
-        const selectedBeerId = this.props.beerId
-        const selectedBeer = beerList.find(beer => { return beer.id == selectedBeerId })
+const SingleBeer = (props) => {
+        
+    const beerList = props.beers
+    const selectedBeerId = props.match.params.beerId
+    
+    const selectedBeer = beerList.find(beer => { return beer.id == selectedBeerId })
 
         if (!selectedBeer) return <p> loading... </p>
 
@@ -14,7 +15,7 @@ export default class SingleBeer extends React.Component {
                 <div className="row">
 
                     <div className='col-lg-12'>
-                        <h1>{selectedBeer.name}</h1>
+                        <h1 className='title'>{selectedBeer.name}</h1>
                     </div>
 
                     <div className='col-lg-6'>
@@ -46,26 +47,15 @@ export default class SingleBeer extends React.Component {
                             <li className="list-group-item">
                                 {selectedBeer.parent_company_id.name || "undefined"}
                             </li>
-                            
-                            
-                            
                         </ul>
                     </div>
                 </div>
             </div>
         )
     }
-}
 
+const mapStateToProps = storeState => ({
+    beers: storeState.beers,
+})
 
-
-
-
-// const SingleBeer = ({ beers, id }) => {
-//     const selectedBeer = beers.find(beer => beer.id === +id);
-//     if (!selectedBeer) return <p>Loading...</p>;
-//     return (
-//         
-//     );
-// };
-// export default SingleBeer;
+export default connect(mapStateToProps)(SingleBeer)
