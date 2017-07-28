@@ -14,5 +14,5 @@ module.exports = db =>
 
 module.exports.associations = (Order, { User, OrderItem }) => {
 	Order.belongsTo(User);
-	Order.hasMany(OrderItem);
+	Order.hasMany(OrderItem, {onDelete: 'cascade'});
 };

@@ -15,7 +15,7 @@ module.exports = db =>
 
 module.exports.associations = (CartItem, { Beer, User }) => {
 	CartItem.belongsTo(User);
-	CartItem.hasOne(Beer);
+	CartItem.belongsTo(Beer);
 
 
 	// // non-associations
