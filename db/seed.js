@@ -1,7 +1,7 @@
 'use strict';
 
 const db = require('APP/db'),
-	{ CartItem, Beer, Tag, BeerTag, User, Thing, Favorite, ParentCompany, OrderItem, Order, Promise } = db,
+	{ CartItem, Beer, Tag, BeerTag, User, ParentCompany, OrderItem, Order, Promise } = db,
 	{ mapValues } = require('lodash');
 
 function seedEverything() {
@@ -319,15 +319,27 @@ const parentCompany = seed(ParentCompany, {
 });
 
 const users = seed(User, ({ carts }) => ({
-	god: {
-		email: 'god@example.com',
-		name: 'So many names',
-		password: '1234'
+	user1: {
+		email: 'bberd@gmail.com',
+		firstName: 'Boris',
+		lastName: 'Berd',
+		password: '1234',
+		address: '445 80th Ave, New York, NY 11233',
+		userType: 'Admin'
 	},
-	barack: {
-		name: 'Barack Obama',
-		email: 'barack@example.gov',
-		password: '1234'
+	user2: {
+		email: 'jkhaha@gmail.com',
+		firstName: 'Jaque',
+		lastName: 'Hayes',
+		password: '1234',
+		address: '23 Trump Tower, New York, NY 11233'
+	},
+	user3: {
+		email: 'PCPete@gmail.com',
+		firstName: 'Peter',
+		lastName: 'Jenkins',
+		password: '1234',
+		address: '5 Hanover Square, New York, NY 10004'
 	}
 }));
 
@@ -548,46 +560,6 @@ const beers = seed(Beer, ({ tags, carts, parentCompany }) => ({
 	}
 }));
 
-const things = seed(Thing, {
-	surfing: { name: 'surfing' },
-	smiting: { name: 'smiting' },
-	puppies: { name: 'puppies' }
-});
-
-const favorites = seed(
-                       Favorite,
-	// We're specifying a function here, rather than just a rows object.
-	// Using a function lets us receive the previously-seeded rows (the seed
-	// function does this wiring for us).
-	//
-	// This lets us reference previously-created rows in order to create the join
-	// rows. We can reference them by the names we used above (which is why we used
-	// Objects above, rather than just arrays).
-	({ users, things }) => ({
-		// The easiest way to seed associations seems to be to just create rows
-		// in the join table.
-		'obama loves surfing': {
-			user_id: users.barack.id, // users.barack is an instance of the User model
-			// that we created in the user seed above.
-			// The seed function wires the promises so that it'll
-			// have been created already.
-			thing_id: things.surfing.id // Same thing for things.
-		},
-		'god is into smiting': {
-			user_id: users.god.id,
-			thing_id: things.smiting.id
-		},
-		'obama loves puppies': {
-			user_id: users.barack.id,
-			thing_id: things.puppies.id
-		},
-		'god loves puppies': {
-			user_id: users.god.id,
-			thing_id: things.puppies.id
-		}
-	})
-	);
-
 if (module === require.main) {
 	db.didSync
 	.then(() => db.sync({ force: true }))
@@ -634,20 +606,20 @@ function seed(Model, rows) {
 		return Promise.resolve(rows)
 		.then(rows =>
 		      Promise.props(
-		                    Object.keys(rows)
-		                    .map(key => {
-		                    	const row = rows[key];
-		                    	return {
-		                    		key,
-		                    		value: Promise.props(row).then(row =>
-		                    		                               Model.create(row).catch(error => {
-		                    		                               	throw new BadRow(key, row, error);
-		                    		                               })
-		                    		                               )
-		                    	};
-		                    })
-		                    .reduce((all, one) => Object.assign({}, all, { [one.key]: one.value }), {})
-		                    )
+            Object.keys(rows)
+            .map(key => {
+            	const row = rows[key];
+            	return {
+            		key,
+            		value: Promise.props(row).then(row =>
+                   Model.create(row).catch(error => {
+                   	throw new BadRow(key, row, error);
+                   })
+                   )
+            	};
+            })
+            .reduce((all, one) => Object.assign({}, all, { [one.key]: one.value }), {})
+            )
 		      )
 		.then(seeded => {
 			console.log(`Seeded ${Object.keys(seeded).length} ${Model.name} OK`);
@@ -659,4 +631,4 @@ function seed(Model, rows) {
 	};
 }
 
-module.exports = Object.assign(seed, { seedEverything, users, things, favorites, });
+module.exports = Object.assign(seed, { seedEverything, users });
