@@ -2,7 +2,10 @@
 
 const db = require('APP/db');
 const Order = db.model('order');
+const CartItem = db.model('cartItem');
+const OrderItem = db.model('orderItem');
 const Beer = db.model('beer');
+const Bluebird = require('bluebird');
 
 module.exports = require('express')
 	.Router()
@@ -27,11 +30,43 @@ module.exports = require('express')
 			.catch(next);
 	})
 	.post('/', (req, res, next) => {
-		Order.create(req.body)
+		const userId = req.userId;
+		let orderId;
+		const userObj = {user_id: +userId}
+		Order.create(userObj)
 			.then(newOrder => {
-				res.json(newOrder);
+				orderId = newOrder.id;
+				return CartItem.findAll({ where: {
+					user_id: +userId
+				},
+				include: [Beer]})
 			})
-			.catch(next);
+				.then((cartItems) => {
+					const promises = [];
+					for (let item in cartItems) {
+						let itemObj = {
+							quantity: cartItems[item].quantity,
+							price: cartItems[item].beer.price,
+							user_id: cartItems[item].user_id,
+							beer_id: cartItems[item].beer_id,
+							order_id: orderId
+						};
+
+						promises.push(OrderItem.create(itemObj))
+					}
+					return Bluebird.all(promises)
+				})
+				.then(() => {
+					return CartItem.destroy({
+						where: {
+							user_id: userId
+						}
+					})
+				})
+					.then(destroyedCartItem => {
+						res.status(204).end();
+					})
+			.catch(next)
 	})
 	.put('/', (req, res, next) => {
 		Order.update(req.body, {
@@ -54,4 +89,6 @@ module.exports = require('express')
 		}).then(() => {
 			res.sendStatus(200);
 		});
-	});
+	})
+
+
