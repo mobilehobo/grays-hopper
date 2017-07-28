@@ -6,39 +6,26 @@ import NavBar from "./NavBar.jsx"
 import AllBeers from './AllBeers.jsx'
 import SingleBeer from './SingleBeer.jsx'
 
-import {fetchAllBeers} from '../reducers/beer.jsx'
+import { fetchAllBeers } from '../reducers/beer.jsx'
 
 export class App extends React.Component {
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.loadAllBeers();
     }
 
     render() {
-        const beerList = this.props.beers;
         return (
-            <div id='app'>
-            <NavBar/>
+
             <Router>
-                <Switch>
-                    
-                    <Route exact path='/' 
-                        render={()=> 
-                            <AllBeers 
-                                beerList = {beerList}
-                                />} 
-                            />
-                    
-                    <Route path='/beers/:beerId' 
-                        render={({match})=> 
-                            <SingleBeer 
-                                beerId={match.params.beerId}
-                                beerList = {beerList}
-                                />} 
-                            />
-                </Switch>
+                <div id='app'>
+                    <NavBar />
+                    <Switch>
+                        <Route exact path='/' component={AllBeers} />
+                        <Route exact path='/beers/:beerId' component={SingleBeer} />
+                    </Switch>
+                </div>
             </Router>
-            </div>
         )
     }
 }
