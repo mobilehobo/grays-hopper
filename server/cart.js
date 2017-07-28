@@ -1,7 +1,6 @@
 'use strict';
 
 const db = require('APP/db');
-const Cart = db.model('cart');
 const CartItem = db.model('cartItem');
 const Beer = db.model('beer');
 

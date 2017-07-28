@@ -27,13 +27,14 @@ module.exports = require('express')
 			.catch(next);
 	})
 	.post('/', (req, res, next) => {
+		let userId = req.params.id;
 		Order.create(req.body)
 			.then(newOrder => {
-				let userId = newOrder.user_id;
 				let orderId = newOrder.id;
 				CartItem.findAll({ where: {
-					user_id: newOrder.user_id
+					user_id: userId
 				}})
+			})
 				.then((cartItems) => {
 					for (item in cartItems) {
 						item.orderId = orderId
@@ -70,4 +71,6 @@ module.exports = require('express')
 		}).then(() => {
 			res.sendStatus(200);
 		});
-	});
+	})
+
+
