@@ -7,7 +7,11 @@ const { mustBeLoggedIn, forbidden, assertAdmin } = require('./auth.filters');
 
 module.exports = require('express')
 .Router()
-.use('/:id/cart', require('./orders'))
+.param('id', (req, res, next, id) => {
+	req.userId = id;
+	next();
+})
+.use('/:id/cart', require('./cart'))
 .use('/:id/orders', require('./orders'))
 .get('/', forbidden('listing users is not allowed'),
      (req, res, next) => User.findAll().then(users => res.json(users)).catch(next)

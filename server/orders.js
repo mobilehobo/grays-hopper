@@ -1,8 +1,11 @@
 'use strict';
 
 const db = require('APP/db');
-const Order = db.model('orderItem');
+const Order = db.model('order');
+const CartItem = db.model('cartItem');
+const OrderItem = db.model('orderItem');
 const Beer = db.model('beer');
+const Bluebird = require('bluebird');
 
 module.exports = require('express')
 	.Router()
@@ -27,27 +30,42 @@ module.exports = require('express')
 			.catch(next);
 	})
 	.post('/', (req, res, next) => {
-		let userId = req.params.id;
-		Order.create(req.body)
+		const userId = req.userId;
+		let orderId;
+		const userObj = {user_id: +userId}
+		Order.create(userObj)
 			.then(newOrder => {
-				let orderId = newOrder.id;
-				CartItem.findAll({ where: {
-					user_id: userId
-				}})
+				orderId = newOrder.id;
+				return CartItem.findAll({ where: {
+					user_id: +userId
+				},
+				include: [Beer]})
 			})
 				.then((cartItems) => {
-					for (item in cartItems) {
-						item.orderId = orderId
-						OrderItem.create(item)
+					const promises = [];
+					for (let item in cartItems) {
+						let itemObj = {
+							quantity: cartItems[item].quantity,
+							price: cartItems[item].beer.price,
+							user_id: cartItems[item].user_id,
+							beer_id: cartItems[item].beer_id,
+							order_id: orderId
+						};
+
+						promises.push(OrderItem.create(itemObj))
 					}
+					return Bluebird.all(promises)
 				})
-				.then(
-				  CartItem.destroy({
+				.then(() => {
+					return CartItem.destroy({
 						where: {
 							user_id: userId
 						}
-				  })
-				  )
+					})
+				})
+					.then(destroyedCartItem => {
+						res.status(204).end();
+					})
 			.catch(next)
 	})
 	.put('/', (req, res, next) => {

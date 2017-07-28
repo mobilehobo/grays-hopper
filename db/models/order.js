@@ -9,10 +9,12 @@ module.exports = db =>
 			defaultValue: 'open'
 		},
 
-		address: STRING
+		address: {
+			type: STRING
+		}
 	});
 
 module.exports.associations = (Order, { User, OrderItem }) => {
 	Order.belongsTo(User);
-	Order.hasMany(OrderItem, {onDelete: 'cascade'});
+	Order.hasMany(OrderItem);
 };

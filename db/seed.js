@@ -58,7 +58,7 @@ const orderItems = seed(OrderItem, ({beers, users, cartItems}) => ({
 
 const orders = seed(Order, ({users}) => ({
 	'1stOrder': {
-		user_id: 1
+		user_id: users.user1.id
 	}
 }));
 
