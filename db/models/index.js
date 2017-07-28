@@ -19,8 +19,6 @@ debug = require('debug')(`${app.name}:models`),
 		Tag: require('./tag'),
 		OAuth: require('./oauth'),
 		User: require('./user'),
-		Thing: require('./thing'),
-		Favorite: require('./favorite'),
 		BeerTag: require('./BeerTag'),
 		Order: require('./order'),
 		OrderItem: require('./orderItem')

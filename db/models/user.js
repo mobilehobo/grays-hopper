@@ -29,7 +29,6 @@ db.define("users", {
 
 		password: VIRTUAL, // Note that this is a virtual, and not actually stored in DB
 
-		primary_address: STRING
 	},
 	{
 		indexes: [{
@@ -57,10 +56,9 @@ db.define("users", {
 	}
 	);
 
-module.exports.associations = (User, { CartItem, OAuth, Thing, Favorite }) => {
+module.exports.associations = (User, { CartItem, OAuth }) => {
 	User.hasOne(OAuth);
 	User.hasOne(CartItem, { onDelete: "cascade" });
-	User.belongsToMany(Thing, { as: "favorites", through: Favorite });
 };
 
 function setEmailAndPassword(user) {
