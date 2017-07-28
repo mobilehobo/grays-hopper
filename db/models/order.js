@@ -13,6 +13,6 @@ module.exports = db =>
 	});
 
 module.exports.associations = (Order, { User, OrderItem }) => {
-	Order.belongs(User);
+	Order.belongsTo(User);
 	Order.hasMany(OrderItem);
 };

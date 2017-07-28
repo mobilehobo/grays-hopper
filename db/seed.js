@@ -1,12 +1,11 @@
 'use strict';
 
 const db = require('APP/db'),
-	{ CartItem, Beer, Tag, BeerTag, User, Thing, Favorite, ParentCompany, OrderItem, OrderItem, Promise } = db,
+	{ CartItem, Beer, Tag, BeerTag, User, Thing, Favorite, ParentCompany, OrderItem, Order, Promise } = db,
 	{ mapValues } = require('lodash');
 
 function seedEverything() {
 	const seeded = {
-		// things: things(),
 		tags: tags(),
 		parentCompany: parentCompany()
 	};
@@ -14,17 +13,52 @@ function seedEverything() {
 	seeded.beers = beers(seeded);
 	seeded.users = users(seeded);
 	seeded.beerTags = beerTags(seeded);
-	seeded.carts = carts(seeded);
-	seeded.oderItems = oderItems(seeded);
+	seeded.orders = orders(seeded);
+	seeded.orderItems = orderItems(seeded);
+	seeded.cartItems = cartItems(seeded);
 
 	return Promise.props(seeded);
 }
 
-const oderItems = seed(OrderItem, ({beers, users, carts}) => ({
-	'1stOder': {
-		price:
-		quantity:
+const cartItems = seed(CartItem, ({beers, users}) => ({
+	'1stItem': {
+		beer_id: 4,
+		user_id: 2,
+		quantity: 3
+	},
+	'2ndItem': {
+		beer_id: 3,
+		user_id: 1,
+		quantity: 2
+	},
+	'3rdItem': {
+		beer_id: 1,
+		user_id: 1,
+		quantity: 4
+	}
+}));
 
+const orderItems = seed(OrderItem, ({beers, users, cartItems}) => ({
+	'1stOrderItem': {
+		beer_id: 1,
+		user_id: 1,
+		quantity: 4,
+		price: 5.24,
+		order_id: 1
+	},
+
+	'2ndOrderItem': {
+		beer_id: 2,
+		user_id: 1,
+		quantity: 3,
+		price: 5.54,
+		order_id: 1
+	}
+}));
+
+const orders = seed(Order, ({users}) => ({
+	'1stOrder': {
+		user_id: 1
 	}
 }));
 
@@ -521,7 +555,7 @@ const things = seed(Thing, {
 });
 
 const favorites = seed(
-	Favorite,
+                       Favorite,
 	// We're specifying a function here, rather than just a rows object.
 	// Using a function lets us receive the previously-seeded rows (the seed
 	// function does this wiring for us).
@@ -552,13 +586,13 @@ const favorites = seed(
 			thing_id: things.puppies.id
 		}
 	})
-);
+	);
 
 if (module === require.main) {
 	db.didSync
-		.then(() => db.sync({ force: true }))
-		.then(seedEverything)
-		.finally(() => process.exit(0));
+	.then(() => db.sync({ force: true }))
+	.then(seedEverything)
+	.finally(() => process.exit(0));
 }
 
 class BadRow extends Error {
@@ -588,41 +622,41 @@ function seed(Model, rows) {
 	return (others = {}) => {
 		if (typeof rows === 'function') {
 			rows = Promise.props(
-				mapValues(
-					others,
-					other =>
-						// Is other a function? If so, call it. Otherwise, leave it alone.
-						typeof other === 'function' ? other() : other
+			  mapValues(
+         others,
+         other =>
+					// Is other a function? If so, call it. Otherwise, leave it alone.
+					typeof other === 'function' ? other() : other
 				)
 			).then(rows);
 		}
 
 		return Promise.resolve(rows)
-			.then(rows =>
-				Promise.props(
-					Object.keys(rows)
-						.map(key => {
-							const row = rows[key];
-							return {
-								key,
-								value: Promise.props(row).then(row =>
-									Model.create(row).catch(error => {
-										throw new BadRow(key, row, error);
-									})
-								)
-							};
-						})
-						.reduce((all, one) => Object.assign({}, all, { [one.key]: one.value }), {})
-				)
-			)
-			.then(seeded => {
-				console.log(`Seeded ${Object.keys(seeded).length} ${Model.name} OK`);
-				return seeded;
-			})
-			.catch(error => {
-				console.error(`Error seeding ${Model.name}: ${error} \n${error.stack}`);
-			});
+		.then(rows =>
+		      Promise.props(
+		                    Object.keys(rows)
+		                    .map(key => {
+		                    	const row = rows[key];
+		                    	return {
+		                    		key,
+		                    		value: Promise.props(row).then(row =>
+		                    		                               Model.create(row).catch(error => {
+		                    		                               	throw new BadRow(key, row, error);
+		                    		                               })
+		                    		                               )
+		                    	};
+		                    })
+		                    .reduce((all, one) => Object.assign({}, all, { [one.key]: one.value }), {})
+		                    )
+		      )
+		.then(seeded => {
+			console.log(`Seeded ${Object.keys(seeded).length} ${Model.name} OK`);
+			return seeded;
+		})
+		.catch(error => {
+			console.error(`Error seeding ${Model.name}: ${error} \n${error.stack}`);
+		});
 	};
 }
 
-module.exports = Object.assign(seed, { seedEverything, users, things, favorites });
+module.exports = Object.assign(seed, { seedEverything, users, things, favorites, });

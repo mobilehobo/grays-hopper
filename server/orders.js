@@ -29,9 +29,25 @@ module.exports = require('express')
 	.post('/', (req, res, next) => {
 		Order.create(req.body)
 			.then(newOrder => {
-				res.json(newOrder);
-			})
-			.catch(next);
+				let userId = newOrder.user_id;
+				let orderId = newOrder.id;
+				CartItem.findAll({ where: {
+					user_id: newOrder.user_id
+				}})
+				.then((cartItems) => {
+					for (item in cartItems) {
+						item.orderId = orderId
+						OrderItem.create(item)
+					}
+				})
+				.then(
+				  CartItem.destroy({
+						where: {
+							user_id: userId
+						}
+				  })
+				  )
+			.catch(next)
 	})
 	.put('/', (req, res, next) => {
 		Order.update(req.body, {

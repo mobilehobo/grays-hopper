@@ -89,5 +89,5 @@ module.exports = db => {
 module.exports.associations = (Beer, { CartItem, ParentCompany, Tag }) => {
 	Beer.belongsTo(ParentCompany);
 	Beer.belongsToMany(Tag, { through: 'BeerTag' });
-	Beer.hasMany(CartItem, { onDelete: 'cascade' });
+	// Beer.belongsTo(CartItem, { onDelete: 'cascade' });
 };

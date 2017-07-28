@@ -2,46 +2,47 @@
 
 const db = require('APP/db');
 const Cart = db.model('cart');
+const CartItem = db.model('cartItem');
 const Beer = db.model('beer');
 
 module.exports = require('express')
 	.Router()
 	.get('/', (req, res, next) => {
-		Cart.findOne({
+		CartItem.findAll({
 			where: {
 				user_id: req.params.id
 			},
 			include: [Beer]
 		})
-			.then(cart => res.json(cart))
+			.then(cartItem => res.json(cartItem))
 			.catch(next);
 	})
 	.post('/', (req, res, next) => {
-		Cart.create(req.body)
+		CartItem.create(req.body)
 			.then(addedItem => {
 				res.json(addedItem);
 			})
 			.catch(next);
 	})
 	.put('/', (req, res, next) => {
-		Cart.update(req.body, {
+		CartItem.update(req.body, {
 			where: {
 				user_id: req.params.id
 			},
 			include: [Beer],
 			returning: true
 		})
-			.then(updatedCart => {
-				res.json(updatedCart);
+			.then(([_, item]) => {
+				res.json(item);
 			})
 			.catch(next);
 	})
 	.delete('/:beerId', (req, res, next) => {
-		Cart.destroy({
+		CartItem.destroy({
 			where: {
 				beer_id: req.params.beerId
 			}
 		}).then(() => {
-			res.sendStatus(200);
+			res.sendStatus(204);
 		});
 	});

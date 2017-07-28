@@ -18,14 +18,14 @@ module.exports = require('express')
 			})
 			.catch(next);
 	})
-	.get('/:id', (req, res, next) => {
-		Beer.findById(req.params.id)
-			.then(oneBeer => {
-				if (!oneBeer) res.sendStatus(404);
-				else res.json(oneBeer);
-			})
-			.catch(next);
-	})
+	// .get('/:id', (req, res, next) => {
+	// 	Beer.findById(req.params.id)
+	// 		.then(oneBeer => {
+	// 			if (!oneBeer) res.sendStatus(404);
+	// 			else res.json(oneBeer);
+	// 		})
+	// 		.catch(next);
+	// })
 	.post('/', (req, res, next) => {
 		Beer.create(req.body)
 			.then(newBeer => {
@@ -40,7 +40,7 @@ module.exports = require('express')
 			},
 			returning: true
 		}).then(updatedBeer => {
-			res.json(updatedBeer).catch(next);
+			res.json(updatedBeer[1]).catch(next);
 		});
 	})
 	.delete('/:id', (req, res, next) => {
