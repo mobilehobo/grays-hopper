@@ -18,7 +18,7 @@ describe('Main View and Routes', () => {
 			if (appWrapper.instance().componentDidMount) appWrapper.instance().componentDidMount();
 		});
 
-		it('should start with an empty state', () => {
+		xit('should start with an empty state', () => {
 			const initialState = appWrapper.state();
 			expect(initialState.beers).to.be.deep.equal([]);
 		});

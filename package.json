@@ -29,7 +29,11 @@
     "type": "git",
     "url": "git+https://github.com/mobilehobo/grays-hopper.git"
   },
-  "keywords": ["react", "redux", "skeleton"],
+  "keywords": [
+    "react",
+    "redux",
+    "skeleton"
+  ],
   "author": "Gray",
   "license": "MIT",
   "bugs": {
@@ -40,6 +44,7 @@
     "axios": "^0.15.2",
     "babel-preset-stage-2": "^6.18.0",
     "bcryptjs": "^2.4.0",
+    "bluebird": "^3.5.0",
     "body-parser": "^1.15.2",
     "chai-enzyme": "^0.5.2",
     "chalk": "^1.1.3",
