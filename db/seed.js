@@ -1,28 +1,65 @@
 'use strict';
 
 const db = require('APP/db'),
-	{ Cart, Beer, Tag, BeerTag, User, Thing, Favorite, ParentCompany, Order, Promise } = db,
+	{ CartItem, Beer, Tag, BeerTag, User, ParentCompany, OrderItem, Order, Promise } = db,
 	{ mapValues } = require('lodash');
 
 function seedEverything() {
 	const seeded = {
-		// things: things(),
 		tags: tags(),
 		parentCompany: parentCompany()
 	};
 
 	seeded.beers = beers(seeded);
 	seeded.users = users(seeded);
-	// seeded.favorites = favorites(seeded);
 	seeded.beerTags = beerTags(seeded);
-	seeded.carts = carts(seeded);
 	seeded.orders = orders(seeded);
+	seeded.orderItems = orderItems(seeded);
+	seeded.cartItems = cartItems(seeded);
 
 	return Promise.props(seeded);
 }
 
-const orders = seed(Order, ({beers, users, carts}) => ({
+const cartItems = seed(CartItem, ({beers, users}) => ({
+	'1stItem': {
+		beer_id: 4,
+		user_id: 2,
+		quantity: 3
+	},
+	'2ndItem': {
+		beer_id: 3,
+		user_id: 1,
+		quantity: 2
+	},
+	'3rdItem': {
+		beer_id: 1,
+		user_id: 1,
+		quantity: 4
+	}
+}));
 
+const orderItems = seed(OrderItem, ({beers, users, cartItems}) => ({
+	'1stOrderItem': {
+		beer_id: 1,
+		user_id: 1,
+		quantity: 4,
+		price: 5.24,
+		order_id: 1
+	},
+
+	'2ndOrderItem': {
+		beer_id: 2,
+		user_id: 1,
+		quantity: 3,
+		price: 5.54,
+		order_id: 1
+	}
+}));
+
+const orders = seed(Order, ({users}) => ({
+	'1stOrder': {
+		user_id: users.user1.id
+	}
 }));
 
 const beerTags = seed(BeerTag, ({ beers, tags }) => ({
@@ -152,7 +189,7 @@ const beerTags = seed(BeerTag, ({ beers, tags }) => ({
 	}
 }));
 
-const carts = seed(Cart, ({ beers, users }) => ({
+const carts = seed(CartItem, ({ beers, users }) => ({
 	godsCart: {
 		quantity: 1,
 		beer_id: beers.jaque.id,
@@ -282,15 +319,27 @@ const parentCompany = seed(ParentCompany, {
 });
 
 const users = seed(User, ({ carts }) => ({
-	god: {
-		email: 'god@example.com',
-		name: 'So many names',
-		password: '1234'
+	user1: {
+		email: 'bberd@gmail.com',
+		firstName: 'Boris',
+		lastName: 'Berd',
+		password: '1234',
+		address: '445 80th Ave, New York, NY 11233',
+		userType: 'Admin'
 	},
-	barack: {
-		name: 'Barack Obama',
-		email: 'barack@example.gov',
-		password: '1234'
+	user2: {
+		email: 'jkhaha@gmail.com',
+		firstName: 'Jaque',
+		lastName: 'Hayes',
+		password: '1234',
+		address: '23 Trump Tower, New York, NY 11233'
+	},
+	user3: {
+		email: 'PCPete@gmail.com',
+		firstName: 'Peter',
+		lastName: 'Jenkins',
+		password: '1234',
+		address: '5 Hanover Square, New York, NY 10004'
 	}
 }));
 
@@ -511,51 +560,11 @@ const beers = seed(Beer, ({ tags, carts, parentCompany }) => ({
 	}
 }));
 
-const things = seed(Thing, {
-	surfing: { name: 'surfing' },
-	smiting: { name: 'smiting' },
-	puppies: { name: 'puppies' }
-});
-
-const favorites = seed(
-	Favorite,
-	// We're specifying a function here, rather than just a rows object.
-	// Using a function lets us receive the previously-seeded rows (the seed
-	// function does this wiring for us).
-	//
-	// This lets us reference previously-created rows in order to create the join
-	// rows. We can reference them by the names we used above (which is why we used
-	// Objects above, rather than just arrays).
-	({ users, things }) => ({
-		// The easiest way to seed associations seems to be to just create rows
-		// in the join table.
-		'obama loves surfing': {
-			user_id: users.barack.id, // users.barack is an instance of the User model
-			// that we created in the user seed above.
-			// The seed function wires the promises so that it'll
-			// have been created already.
-			thing_id: things.surfing.id // Same thing for things.
-		},
-		'god is into smiting': {
-			user_id: users.god.id,
-			thing_id: things.smiting.id
-		},
-		'obama loves puppies': {
-			user_id: users.barack.id,
-			thing_id: things.puppies.id
-		},
-		'god loves puppies': {
-			user_id: users.god.id,
-			thing_id: things.puppies.id
-		}
-	})
-);
-
 if (module === require.main) {
 	db.didSync
-		.then(() => db.sync({ force: true }))
-		.then(seedEverything)
-		.finally(() => process.exit(0));
+	.then(() => db.sync({ force: true }))
+	.then(seedEverything)
+	.finally(() => process.exit(0));
 }
 
 class BadRow extends Error {
@@ -585,41 +594,41 @@ function seed(Model, rows) {
 	return (others = {}) => {
 		if (typeof rows === 'function') {
 			rows = Promise.props(
-				mapValues(
-					others,
-					other =>
-						// Is other a function? If so, call it. Otherwise, leave it alone.
-						typeof other === 'function' ? other() : other
+			  mapValues(
+         others,
+         other =>
+					// Is other a function? If so, call it. Otherwise, leave it alone.
+					typeof other === 'function' ? other() : other
 				)
 			).then(rows);
 		}
 
 		return Promise.resolve(rows)
-			.then(rows =>
-				Promise.props(
-					Object.keys(rows)
-						.map(key => {
-							const row = rows[key];
-							return {
-								key,
-								value: Promise.props(row).then(row =>
-									Model.create(row).catch(error => {
-										throw new BadRow(key, row, error);
-									})
-								)
-							};
-						})
-						.reduce((all, one) => Object.assign({}, all, { [one.key]: one.value }), {})
-				)
-			)
-			.then(seeded => {
-				console.log(`Seeded ${Object.keys(seeded).length} ${Model.name} OK`);
-				return seeded;
-			})
-			.catch(error => {
-				console.error(`Error seeding ${Model.name}: ${error} \n${error.stack}`);
-			});
+		.then(rows =>
+		      Promise.props(
+            Object.keys(rows)
+            .map(key => {
+            	const row = rows[key];
+            	return {
+            		key,
+            		value: Promise.props(row).then(row =>
+                   Model.create(row).catch(error => {
+                   	throw new BadRow(key, row, error);
+                   })
+                   )
+            	};
+            })
+            .reduce((all, one) => Object.assign({}, all, { [one.key]: one.value }), {})
+            )
+		      )
+		.then(seeded => {
+			console.log(`Seeded ${Object.keys(seeded).length} ${Model.name} OK`);
+			return seeded;
+		})
+		.catch(error => {
+			console.error(`Error seeding ${Model.name}: ${error} \n${error.stack}`);
+		});
 	};
 }
 
-module.exports = Object.assign(seed, { seedEverything, users, things, favorites });
+module.exports = Object.assign(seed, { seedEverything, users });
