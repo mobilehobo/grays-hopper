@@ -8,6 +8,10 @@
     margin-right: 98px
 } */
 
+body{
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+
 .beer-img{
     height: 80%;
     width: 100%;
@@ -25,7 +29,7 @@
 
 .price{
     margin-top: 5px;
-    font-size: 70%
+    /*font-size: 70%*/
 }
 
 .title{
