@@ -12,26 +12,18 @@ class AddToCart extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
-	componentDidMount() {
-		this.props.currentBeer && console.log(this.props)
-	}
-
 	handleChange(event) {
 		this.setState({
 			quantity: event.target.value
 		});
-		console.log(this.state.quantity)
-		console.log('prrr', this.props)
 	}
 
 	handleSubmit(event) {
 		event.preventDefault();
-		this.props.currentBeer && this.props.addBeerToCart(this.state.quantity, this.props.currentBeer, 1); //userId hardcoded to 1
-		// this.setState(this.state);
+		this.props.addBeerToCart(this.state.quantity, this.props.currentBeer, 1); // userId hardcoded to 1
 	}
 
 	render() {
-		console.log(this.props.currentBeer);
 		return (
 			<div className="row" id="addToCart">
 				<div className="form-group col-xs-2">
@@ -44,14 +36,6 @@ class AddToCart extends Component {
 		);
 	}
 }
-
-
-
-// const mapStateToProps = (storeState, ownProps) => ({
-// 	currentBeer: //storeState.beers.currentBeer
-
-
-// })
 
 const mapDispatchToProps = { addBeerToCart };
 

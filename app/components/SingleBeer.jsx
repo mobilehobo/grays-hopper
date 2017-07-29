@@ -9,8 +9,6 @@ const SingleBeer = (props) => {
     const beerList = props.beers
     const selectedBeerId = props.match.params.beerId
 
-    //props.setCurrentBeer(selectedBeerId)
-
     const selectedBeer = beerList.find(beer => { return beer.id == selectedBeerId })
 
         if (!selectedBeer) return <p> loading... </p>
@@ -57,9 +55,6 @@ const SingleBeer = (props) => {
                     <AddToCart currentBeer={selectedBeer.id}/>
 
                     </div>
-
-
-
                 </div>
             </div>
         )
@@ -69,6 +64,4 @@ const mapStateToProps = storeState => ({
     beers: storeState.beers,
 })
 
-//const mapDispatchToProps = { setCurrentBeer };
-
-export default connect(mapStateToProps, null)(SingleBeer)
+export default connect(mapStateToProps)(SingleBeer)
