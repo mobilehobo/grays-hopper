@@ -1,10 +1,58 @@
-import React from 'react';
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import { addBeerToCart } from '../reducers/cart';
 
-export default function AddToCart() {
-	return (
-		<form>
-			<input class="form-text text-muted" type="text" name="quantity" id="qty" maxLength="2" pattern="[0-9]*" placeholder="1"/>
-			<input class="form-control" type="submit" name="addToCart" id="addItem" value="Add To Cart" />
-		</form>
-	);
+class AddToCart extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			quantity: 1
+		};
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	componentDidMount() {
+		this.props.currentBeer && console.log(this.props)
+	}
+
+	handleChange(event) {
+		this.setState({
+			quantity: event.target.value
+		});
+		console.log(this.state.quantity)
+		console.log('prrr', this.props)
+	}
+
+	handleSubmit(event) {
+		event.preventDefault();
+		this.props.currentBeer && this.props.addBeerToCart(this.state.quantity, this.props.currentBeer, 1); //userId hardcoded to 1
+		// this.setState(this.state);
+	}
+
+	render() {
+		console.log(this.props.currentBeer);
+		return (
+			<div className="row" id="addToCart">
+				<div className="form-group col-xs-2">
+					<form onSubmit={this.handleSubmit}>
+						<input className="form-control" type="number" name="quantity" min="1" max="30" id="qty" value={this.state.quantity} onChange={this.handleChange} />
+						<input className="btn btn-primary" type="submit" name="addToCart" id="addItem" value="Add To Cart" />
+					</form>
+				</div>
+			</div>
+		);
+	}
 }
+
+
+
+// const mapStateToProps = (storeState, ownProps) => ({
+// 	currentBeer: //storeState.beers.currentBeer
+
+
+// })
+
+const mapDispatchToProps = { addBeerToCart };
+
+export default connect(null, mapDispatchToProps)(AddToCart);

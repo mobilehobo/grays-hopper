@@ -1,11 +1,15 @@
 import React from "react";
 import {connect} from 'react-redux';
 import AddToCart from './AddToCart';
+import setCurrentBeer from '../reducers/cart';
+
 
 const SingleBeer = (props) => {
 
     const beerList = props.beers
     const selectedBeerId = props.match.params.beerId
+
+    //props.setCurrentBeer(selectedBeerId)
 
     const selectedBeer = beerList.find(beer => { return beer.id == selectedBeerId })
 
@@ -50,7 +54,7 @@ const SingleBeer = (props) => {
                             </li>
                         </ul>
 
-                    <AddToCart />
+                    <AddToCart currentBeer={selectedBeer.id}/>
 
                     </div>
 
@@ -65,4 +69,6 @@ const mapStateToProps = storeState => ({
     beers: storeState.beers,
 })
 
-export default connect(mapStateToProps)(SingleBeer)
+//const mapDispatchToProps = { setCurrentBeer };
+
+export default connect(mapStateToProps, null)(SingleBeer)

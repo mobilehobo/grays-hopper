@@ -600,7 +600,8 @@ function seed(Model, rows) {
 					// Is other a function? If so, call it. Otherwise, leave it alone.
 					typeof other === 'function' ? other() : other
 				)
-			).then(rows);
+			).then(rows)
+			.catch(error => console.error(error));
 		}
 
 		return Promise.resolve(rows)

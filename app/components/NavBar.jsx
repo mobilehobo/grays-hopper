@@ -25,7 +25,7 @@ const navBar = (props) => {
 
             <Row>
                 <Col md={12}>
-                    <img width='100%' src="http://de12.engine.flamingtext.com/netfu/tmp28008/coollogo_com-29396863.gif" />
+                    <img width='100%' src="/firedup.gif" />
                 </Col>
             </Row>
 

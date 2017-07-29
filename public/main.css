@@ -37,3 +37,9 @@ body{
     margin-bottom: 20px;
     margin-top: 20px;
 }
+
+#addToCart{
+    /*position: absolute;
+    left: 50%;*/
+    text-align: center;
+}
