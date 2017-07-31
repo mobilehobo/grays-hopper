@@ -41,9 +41,20 @@ export class BeerItems extends React.Component {
     }
 
     render() {
+        
+        let beerTagsArr = []
+        
+        this.props.beers.forEach(beer=>{
+            beer.tagsArr = []
+            beer.tags.forEach(tag=>{
+                beer.tagsArr.push(tag.name.toLowerCase())
+            })
+        })
+        
         const beerList = this.props.beers.filter(beer => {
+
             return (
-                beer.name.toLowerCase().includes(this.state.searchValue.toLowerCase())
+                beer.tagsArr.includes(this.state.searchValue.toLowerCase())
                 || beer.beerType.toLowerCase().includes(this.state.searchValue.toLowerCase())
                 || beer.beerSubType.toLowerCase().includes(this.state.searchValue.toLowerCase())
                 || beer.price.toString().toLowerCase().includes(this.state.searchValue.toLowerCase())
@@ -51,9 +62,10 @@ export class BeerItems extends React.Component {
                 || beer.ibu.toString().toLowerCase().includes(this.state.searchValue.toLowerCase())
                 || beer.country.toLowerCase().includes(this.state.searchValue.toLowerCase())
                 || beer.parentCompany.name.toLowerCase().includes(this.state.searchValue.toLowerCase())
+                || beer.name.toLowerCase().includes(this.state.searchValue.toLowerCase())
             )
         })
-
+        
         if (!beerList) return <p> loading... </p>
         return (
             <Col md={12}>
@@ -99,7 +111,7 @@ export class BeerItems extends React.Component {
                             </FormGroup>
                             {' '}
                             <FormGroup controlId="formInlineEmail">
-                                <ControlLabel>APV</ControlLabel>
+                                <ControlLabel>ABV</ControlLabel>
                                 {' '}
                                 <FormControl componentClass="select" placeholder="select">
                                     <option value="select">select</option>
