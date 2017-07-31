@@ -14,6 +14,7 @@ module.exports = require('express')
 			include: [ParentCompany, Tag]
 		})
 			.then(beers => {
+				console.log('sesh', req.session.passport)
 				res.json(beers);
 			})
 			.catch(next);
