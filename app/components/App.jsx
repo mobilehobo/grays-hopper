@@ -6,6 +6,8 @@ import NavBar from "./NavBar.jsx"
 import AllBeers from './AllBeers.jsx'
 import SingleBeer from './SingleBeer.jsx'
 import SingleBrewery from './SingleBrewery.jsx'
+
+import AllOrders from './AllOrders.jsx'
 import SingleCountry from './SingleCountry.jsx'
 import SingleType from './SingleType.jsx'
 
@@ -29,6 +31,7 @@ export class App extends React.Component {
                         <Route exact path='/' component={AllBeers} />
                         <Route path='/beers/:beerId' component={SingleBeer} />
                         <Route path='/breweries/:breweryId' component={SingleBrewery} />
+                        <Route path='/users/:userId/orders' component={AllOrders} />
                         <Route path='/types/:typeName' component={SingleType} />
                         <Route path='/countries/:countryName' component={SingleCountry} />
                     </Switch>

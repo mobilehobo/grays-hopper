@@ -1,11 +1,14 @@
 import React from "react";
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
+import AddToCart from './AddToCart';
+import setCurrentBeer from '../reducers/cart';
+
 
 const SingleBeer = (props) => {
-        
+
     const beerList = props.beers
     const selectedBeerId = props.match.params.beerId
-    
+
     const selectedBeer = beerList.find(beer => { return beer.id == selectedBeerId })
 
         if (!selectedBeer) return <p> loading... </p>
@@ -40,11 +43,14 @@ const SingleBeer = (props) => {
                             <li className="list-group-item">
                                 Country: {selectedBeer.country}
                             </li>
-                            
+
                             <li className="list-group-item">
                                 {selectedBeer.parent_company_id.name || "undefined"}
                             </li>
                         </ul>
+
+                    <AddToCart currentBeer={selectedBeer.id}/>
+
                     </div>
                 </div>
             </div>

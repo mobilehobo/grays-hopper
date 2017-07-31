@@ -33,6 +33,16 @@ const navBar = (props) => {
                         <Nav>
                             <NavItem eventKey={1} href="#"> Login </NavItem>
                             <NavItem> Cart </NavItem>
+                            <LinkContainer to={`/users/1/orders`}>
+                            {
+                                // hardcoded to user 1
+                            }
+                                <NavItem>
+                                    Orders
+                                </NavItem>
+                            </LinkContainer>
+
+
                         </Nav>
                     </Navbar>
                 </Col>
@@ -40,7 +50,7 @@ const navBar = (props) => {
 
             <Row>
                 <Col md={12}>
-                    <img width='100%' src="http://www.pchsweb.org/assets/header-placeholder.jpg" />
+                    <img width='100%' src="/firedup.gif" />
                 </Col>
             </Row>
 
