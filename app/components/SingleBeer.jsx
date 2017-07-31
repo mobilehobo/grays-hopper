@@ -14,19 +14,16 @@ const SingleBeer = (props) => {
             <div className='col-lg-12'>
                 <div className="row">
 
-                    <div className='col-lg-12'>
-                        <h1 className='title'>{selectedBeer.name}</h1>
-                    </div>
-
                     <div className='col-lg-6'>
                         <img width='100%'
-                            className="beer-img"
+                            className="single-beer-img"
                             src={selectedBeer.imageURL}
                             alt={selectedBeer.name}
                         />
                     </div>
 
                     <div className="col-lg-6">
+                        <h1>{selectedBeer.name}</h1>
                         <ul className="list-group">
                             <li className="list-group-item">
                                 Type: {selectedBeer.beerSubType}
