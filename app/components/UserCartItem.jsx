@@ -1,13 +1,29 @@
 import React from 'react';
+import { ListGroupItem, Media, Button, Glyphicon } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
-const UserCartItem = ({item}) => {
+import { removeBeerFromCart } from '../reducers/cart';
+
+const UserCartItem = ({ item, userId, removeBeerFromCart }) => {
 	return (
-		<div>
-			<p>{item.beer.name}</p>
-			<p>{item.quantity}</p>
-			<p>{item.beer.price}</p>
-		</div>
+		<ListGroupItem>
+			<Media>
+				<Media.Left>
+					<img width={100} height={100} src={item.beer.imageURL} alt={item.beer.name + ' picture in cart'} />
+				</Media.Left>
+				<Media.Body>
+					<Media.Heading>{item.beer.name}</Media.Heading>
+					<p>Quantity: {item.quantity}</p>
+					<p>Price of items: ${item.beer.price * item.quantity}</p>
+				</Media.Body>
+				<Media.Right>
+					<Button onClick={() => removeBeerFromCart(item.beer.id, userId)} bsStyle="danger"> <Glyphicon glyph="trash" /> </Button>
+				</Media.Right>
+			</Media>
+		</ListGroupItem>
 	);
 };
 
-export default UserCartItem;
+const mapDispatchToProps = { removeBeerFromCart };
+
+export default connect(null, mapDispatchToProps)(UserCartItem);

@@ -65,14 +65,8 @@ export function updateBeerInCart(quantity, beerId, userId) {
 
 export function removeBeerFromCart(beerId, userId) {
 	return function(dispatch) {
-		axios.delete(`/api/users/${userId}/cart`, {
-			user_id: userId,
-			beer_id: beerId
-		})
-			.then(result => {
-				console.log(result);
-				dispatch(removeBeerFromCart(beerId));
-			})
+		axios.delete(`/api/users/${userId}/cart/${beerId}`)
+			.then(() => dispatch(removeFromCart(beerId)))
 			.catch(err => console.error(err));
 	};
 }
