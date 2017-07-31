@@ -9,6 +9,21 @@ import { LinkContainer } from 'react-router-bootstrap'
 const navBar = (props) => {
 
     const breweryList = props.breweries
+    const beerList = props.beers
+
+    const typesList = [];
+    beerList.forEach(beer=>{
+        if (!typesList.includes(beer.beerType)){
+            typesList.push(beer.beerType)
+        }
+    })
+
+    const countriesList = [];
+    beerList.forEach(beer=>{
+        if (!countriesList.includes(beer.country)){
+            countriesList.push(beer.country)
+        }
+    })
 
     return (
         <div>
@@ -60,6 +75,32 @@ const navBar = (props) => {
                                     })
                                 }
                             </NavDropdown>
+                            <NavDropdown title="Types" id="basic-nav-dropdown">
+                                {
+                                    typesList.map(type => {
+                                        return (
+                                            <LinkContainer to={`/types/${type}`} key={type}>
+                                                <MenuItem >
+                                                    {type}
+                                                </MenuItem>
+                                            </LinkContainer>
+                                        )
+                                    })
+                                }
+                            </NavDropdown>
+                            <NavDropdown title="Countries" id="basic-nav-dropdown">
+                                {
+                                    countriesList.map(country => {
+                                        return (
+                                            <LinkContainer to={`/countries/${country}`} key={country}>
+                                                <MenuItem >
+                                                    {country}
+                                                </MenuItem>
+                                            </LinkContainer>
+                                        )
+                                    })
+                                }
+                            </NavDropdown>
                         </Nav>
                     </Navbar>
                 </Col>
@@ -69,6 +110,7 @@ const navBar = (props) => {
 }
 
 const mapStateToProps = storeState => ({
+    beers: storeState.beers,
     breweries: storeState.breweries,
 })
 

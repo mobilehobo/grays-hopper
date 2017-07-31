@@ -12,7 +12,6 @@ const SingleBrewery = (props) => {
     const matchedBrewery = breweriesList.filter(brewery => { return brewery.id == selectedBreweryId })[0]
     
     const matchedBeers = beerList.filter(beer=>{return beer.parentCompany.id == selectedBreweryId})
-    console.log(matchedBeers)
 
     if (!matchedBrewery) return <p> loading... </p>
     return (
@@ -30,10 +29,6 @@ const SingleBrewery = (props) => {
                     </div>
                 )
             })}
-
-
-
-
 
         </Col>
 
