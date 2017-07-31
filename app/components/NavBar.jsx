@@ -18,6 +18,16 @@ const navBar = (props) => {
                         <Nav>
                             <NavItem eventKey={1} href="#"> Login </NavItem>
                             <NavItem> Cart </NavItem>
+                            <LinkContainer to={`/users/1/orders`}>
+                            {
+                                // hardcoded to user 1
+                            }
+                                <NavItem>
+                                    Orders
+                                </NavItem>
+                            </LinkContainer>
+
+
                         </Nav>
                     </Navbar>
                 </Col>

@@ -6,6 +6,7 @@ import NavBar from "./NavBar.jsx"
 import AllBeers from './AllBeers.jsx'
 import SingleBeer from './SingleBeer.jsx'
 import SingleBrewery from './SingleBrewery.jsx'
+import AllOrders from './AllOrders.jsx'
 
 import { fetchAllBeers } from '../reducers/beer.jsx'
 import { fetchAllBreweries } from '../reducers/parentCompany.jsx'
@@ -16,7 +17,7 @@ export class App extends React.Component {
         this.props.loadAllBeers();
         this.props.loadAllBreweries();
     }
-    
+
     render() {
         return (
 
@@ -26,7 +27,8 @@ export class App extends React.Component {
                     <Switch>
                         <Route exact path='/' component={AllBeers} />
                         <Route path='/beers/:beerId' component={SingleBeer} />
-                        <Route path='/breweries/:breweryId' component={SingleBrewery} /> 
+                        <Route path='/breweries/:breweryId' component={SingleBrewery} />
+                        <Route path='/users/:userId/orders' component={AllOrders} />
                     </Switch>
                 </div>
             </Router>

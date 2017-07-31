@@ -12,19 +12,27 @@ module.exports = require('express')
 	.get('/', (req, res, next) => {
 		Order.findAll({
 			where: {
-				user_id: req.params.id
+				user_id: req.userId
 			},
-			include: [Beer]
+			include: [{
+				model: OrderItem,
+					include: [{
+						model: Beer
+					}]
+			}]
 		})
 			.then(orders => res.json(orders))
 			.catch(next);
 	})
 	.get('/:orderId', (req, res, next) => {
-		Order.findOne({
-			where: {
-				orderId: req.params.orderId
-			},
-			include: [Beer]
+		const orderId = req.params.orderId
+		Order.findById(orderId,
+			{ include: [{
+				model: OrderItem,
+					include: [{
+						model: Beer
+					}]
+			}]
 		})
 			.then(order => res.json(order))
 			.catch(next);
