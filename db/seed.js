@@ -53,11 +53,38 @@ const orderItems = seed(OrderItem, ({beers, users, cartItems}) => ({
 		quantity: 3,
 		price: 5.54,
 		order_id: 1
+	},
+
+	'3rdOrderItem': {
+		beer_id: 6,
+		user_id: 1,
+		quantity: 4,
+		price: 5.20,
+		order_id: 2
+	},
+
+	'4thOrderItem': {
+		beer_id: 7,
+		user_id: 1,
+		quantity: 2,
+		price: 6.90,
+		order_id: 2
+	},
+
+	'5thOrderItem': {
+		beer_id: 9,
+		user_id: 1,
+		quantity: 6,
+		price: 8.10,
+		order_id: 2
 	}
 }));
 
 const orders = seed(Order, ({users}) => ({
 	'1stOrder': {
+		user_id: users.user1.id
+	},
+	'2ndOrder': {
 		user_id: users.user1.id
 	}
 }));
