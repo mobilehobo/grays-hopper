@@ -6,6 +6,7 @@ import NavBar from "./NavBar.jsx"
 import AllBeers from './AllBeers.jsx'
 import SingleBeer from './SingleBeer.jsx'
 import SingleBrewery from './SingleBrewery.jsx'
+
 import AllOrders from './AllOrders.jsx'
 import SingleCountry from './SingleCountry.jsx'
 import SingleType from './SingleType.jsx'
