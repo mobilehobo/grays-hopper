@@ -36,10 +36,13 @@ module.exports = require('express')
 			})
 			.catch(next);
 	})
-	.delete('/:beerId', (req, res, next) => {
+	.delete('/', (req, res, next) => {
 		CartItem.destroy({
 			where: {
-				beer_id: req.params.beerId
+				$and: [
+					{ beer_id: req.body.beer_id },
+					{ user_id: req.body.user_id }
+				]
 			}
 		}).then(() => {
 			res.sendStatus(204);
