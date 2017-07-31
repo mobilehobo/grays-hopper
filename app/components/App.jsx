@@ -6,10 +6,10 @@ import NavBar from "./NavBar.jsx"
 import AllBeers from './AllBeers.jsx'
 import SingleBeer from './SingleBeer.jsx'
 import SingleBrewery from './SingleBrewery.jsx'
-
 import AllOrders from './AllOrders.jsx'
 import SingleCountry from './SingleCountry.jsx'
 import SingleType from './SingleType.jsx'
+import Login from './Login.jsx'
 
 import { fetchAllBeers } from '../reducers/beer.jsx'
 import { fetchAllBreweries } from '../reducers/parentCompany.jsx'
@@ -30,6 +30,7 @@ export class App extends React.Component {
                     <Switch>
                         <Route exact path='/' component={AllBeers} />
                         <Route path='/beers/:beerId' component={SingleBeer} />
+                        <Route path='/login' component={Login} />
                         <Route path='/breweries/:breweryId' component={SingleBrewery} />
                         <Route path='/users/:userId/orders' component={AllOrders} />
                         <Route path='/types/:typeName' component={SingleType} />

@@ -31,12 +31,14 @@ const navBar = (props) => {
                 <Col md={12}>
                     <Navbar>
                         <Nav>
-                            <NavItem eventKey={1} href="#"> Login </NavItem>
+                            <LinkContainer to={'/login'}>
+                                <NavItem eventKey={1} href="#"> Login </NavItem>
+                            </LinkContainer>
                             <NavItem> Cart </NavItem>
                             <LinkContainer to={`/users/1/orders`}>
-                            {
-                                // hardcoded to user 1
-                            }
+                                {
+                                    // hardcoded to user 1
+                                }
                                 <NavItem>
                                     Orders
                                 </NavItem>
