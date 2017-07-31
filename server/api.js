@@ -3,6 +3,10 @@
 const api = (module.exports = require('express').Router());
 
 api
+  .get('/', function(req, res, next) {
+    // Update views
+    req.session.views = (req.session.views || 0) + 1;
+  })
   .get('/heartbeat', (req, res) => res.send({ ok: true }))
   .use('/auth', require('./auth'))
   .use('/users', require('./users'))
