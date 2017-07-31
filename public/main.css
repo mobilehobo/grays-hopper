@@ -13,7 +13,7 @@ body{
 }
 
 .beer-img{
-    height: 80%;
+    height: 500px;
     width: 100%;
     margin-bottom: 20px
 }
@@ -42,4 +42,10 @@ body{
     /*position: absolute;
     left: 50%;*/
     text-align: center;
+}
+
+.single-beer-img{
+    height: 100%;
+    width: 100%;
+    margin-bottom: 20px
 }
