@@ -6,7 +6,7 @@ import SingleOrder from './SingleOrder';
 
 class OrderItems extends Component {
 	componentDidMount() {
-		this.props.fetchAllOrdersById(1) // hardcoded to user id 1
+		this.props.fetchAllOrdersById() // hardcoded to user id 1
 	}
 
 	render() {

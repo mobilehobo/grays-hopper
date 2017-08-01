@@ -7,12 +7,14 @@ const { mustBeLoggedIn, forbidden, assertAdmin } = require('./auth.filters');
 
 module.exports = require('express')
 .Router()
-.param('id', (req, res, next, id) => {
-	req.userId = id;
+.use('/', (req, res, next) => {
+		 //req.userId = id;
+		 console.log(req)
+		 req.body.user_id = req.session.passport.user || 8000
 	next();
 })
-.use('/:id/cart', require('./cart'))
-.use('/:id/orders', require('./orders'))
+.use('/cart', require('./cart'))
+.use('/orders', require('./orders'))
 .get('/', forbidden('listing users is not allowed'),
      (req, res, next) => User.findAll().then(users => res.json(users)).catch(next)
 		// The forbidden middleware will fail *all* requests to list users.
@@ -23,8 +25,8 @@ module.exports = require('express')
 		// the concept of admin users.
 		)
 .post('/', assertAdmin, (req, res, next) =>
-      User.create(req.body).then(user => res.status(201).json(user)).catch(next)
-      )
+	User.create(req.body).then(user => res.status(201).json(user)).catch(next)
+  )
 .get('/:id', mustBeLoggedIn, (req, res, next) =>
      User.findById(req.params.id).then(user => res.json(user)).catch(next)
      )
