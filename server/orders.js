@@ -10,72 +10,74 @@ const Bluebird = require('bluebird');
 module.exports = require('express')
 	.Router()
 	.get('/', (req, res, next) => {
-		console.log(req.session)
 		Order.findAll({
 			where: {
 				user_id: req.body.user_id
 			},
 			include: [{
 				model: OrderItem,
-					include: [{
-						model: Beer
-					}]
+				include: [{
+					model: Beer
+				}]
 			}]
 		})
 			.then(orders => res.json(orders))
 			.catch(next);
 	})
 	.get('/:orderId', (req, res, next) => {
-		const orderId = req.params.orderId
+		const orderId = req.params.orderId;
 		Order.findById(orderId,
-			{ include: [{
-				model: OrderItem,
+			{
+				include: [{
+					model: OrderItem,
 					include: [{
 						model: Beer
 					}]
-			}]
-		})
+				}]
+			})
 			.then(order => res.json(order))
 			.catch(next);
 	})
 	.post('/', (req, res, next) => {
 		const userId = req.body.user_id;
 		let orderId;
-		const userObj = {user_id: +userId}
+		const userObj = { user_id: +userId };
 		Order.create(userObj)
 			.then(newOrder => {
 				orderId = newOrder.id;
-				return CartItem.findAll({ where: {
-					user_id: +userId
-				},
-				include: [Beer]})
+				return CartItem.findAll({
+					where: {
+						user_id: +userId
+					},
+					include: [Beer]
+				})
 			})
-				.then((cartItems) => {
-					const promises = [];
-					for (let item in cartItems) {
-						let itemObj = {
-							quantity: cartItems[item].quantity,
-							price: cartItems[item].beer.price,
-							user_id: cartItems[item].user_id,
-							beer_id: cartItems[item].beer_id,
-							order_id: orderId
-						};
+			.then((cartItems) => {
+				const promises = [];
+				for (let item in cartItems) {
+					const itemObj = {
+						quantity: cartItems[item].quantity,
+						price: cartItems[item].beer.price,
+						user_id: cartItems[item].user_id,
+						beer_id: cartItems[item].beer_id,
+						order_id: orderId
+					};
 
-						promises.push(OrderItem.create(itemObj))
+					promises.push(OrderItem.create(itemObj))
+				}
+				return Bluebird.all(promises)
+			})
+			.then(() => {
+				return CartItem.destroy({
+					where: {
+						user_id: userId
 					}
-					return Bluebird.all(promises)
-				})
-				.then(() => {
-					return CartItem.destroy({
-						where: {
-							user_id: userId
-						}
-					})
-				})
-					.then(destroyedCartItem => {
-						res.status(204).end();
-					})
-			.catch(next)
+				});
+			})
+			.then(destroyedCartItem => {
+				res.status(204).end();
+			})
+			.catch(next);
 	})
 	.put('/', (req, res, next) => {
 		Order.update(req.body, {
@@ -98,6 +100,4 @@ module.exports = require('express')
 		}).then(() => {
 			res.sendStatus(200);
 		});
-	})
-
-
+	});

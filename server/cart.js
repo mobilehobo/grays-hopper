@@ -9,34 +9,36 @@ module.exports = require('express')
 	.get('/', (req, res, next) => {
 		CartItem.findAll({
 			where: {
-				user_id: req.session.passport.user.id
+				user_id: req.body.user_id
 			},
 			include: [Beer]
 		})
-			.then(cartItem => {
-				res.json(cartItem);
+			.then(cart => {
+				res.json(cart);
 			})
 			.catch(next);
 	})
 	.post('/', (req, res, next) => {
-		req.body.user_id = req.session.passport.user.id;
-		CartItem.create(req.body)
-			.then(addedItem => {
-				res.json(addedItem);
-			})
+		CartItem.create(req.body, {
+			include: [Beer]
+		})
+			.then(cartItem => CartItem.findById(cartItem.id, { include: [Beer] }))
+			.then(data => res.json(data))
 			.catch(next);
 	})
 	.put('/', (req, res, next) => {
 		CartItem.update(req.body, {
 			where: {
-				user_id: req.session.passport.user.id
+				beer_id: req.body.beer_id,
+				user_id: req.body.user_id
 			},
-			include: [Beer],
-			returning: true
+			returning: true,
+			plain: true,
+			include: [Beer]
 		})
-			.then(([_, item]) => {
-				res.json(item);
-			})
+			.then(([_, item]) => item)
+			.then(cartItem => CartItem.findById(cartItem.id, { include: [Beer] }))
+			.then(data => res.json(data))
 			.catch(next);
 	})
 	.delete('/:beerId', (req, res, next) => {
@@ -44,7 +46,7 @@ module.exports = require('express')
 			where: {
 				$and: [
 					{ beer_id: req.params.beerId },
-					{ user_id: req.session.passport.user.id }
+					{ user_id: req.body.user_id }
 				]
 			}
 		}).then(() => {

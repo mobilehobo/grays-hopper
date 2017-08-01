@@ -1,10 +1,25 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Button, Glyphicon } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
 
-const Checkout = props => {
-	console.log('hi');
+import UserCart from './UserCart';
+import { createNewOrder } from '../reducers/order';
+
+const Checkout = ({ createNewOrder, history }) => {
 	return (
-		<h1>Checkout!</h1>
+		<div>
+			<h3 className='title'> Checkout </h3>
+			<UserCart checkout="true" />
+			<Button onClick={() => {
+				createNewOrder()
+					.then(() => history.push('/orders'))
+			}
+			} bsSize="large" bsStyle="success">Place Order</Button>
+		</div>
 	);
 };
 
-export default Checkout;
+const mapDispatchToProps = { createNewOrder };
+
+export default withRouter(connect(null, mapDispatchToProps)(Checkout));

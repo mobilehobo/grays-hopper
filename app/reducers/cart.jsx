@@ -5,6 +5,7 @@ const GET_USER_CART = 'GET_USER_CART';
 const ADD_TO_CART = 'ADD_TO_CART';
 const UPDATE_CART_ITEM = 'UPDATE_CART_ITEM';
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+const REMOVE_CART = 'REMOVE_CART';
 
 // action creators
 export const getUserCart = cart => ({
@@ -27,8 +28,12 @@ export const updateCartItem = beerToUpdate => ({
 	beerToUpdate: beerToUpdate
 });
 
+export const removeCart = () => ({
+	type: REMOVE_CART
+});
+
 // thunk functions
-export function fetchUserCart(userId) {
+export function fetchUserCart() {
 	return function(dispatch) {
 		axios.get('/api/users/cart')
 			.then(res => res.data)
@@ -37,11 +42,10 @@ export function fetchUserCart(userId) {
 	};
 }
 
-export function addBeerToCart(quantity, beerId, userId) {
+export function addBeerToCart(quantity, beerId) {
 	return function(dispatch) {
 		axios.post('/api/users/cart', {
 			beer_id: beerId,
-			user_id: userId,
 			quantity: quantity
 		})
 			.then(res => res.data)
@@ -50,20 +54,21 @@ export function addBeerToCart(quantity, beerId, userId) {
 	};
 }
 
-export function updateBeerInCart(quantity, beerId, userId) {
+export function updateBeerInCart(event, beerId) {
+	event.preventDefault();
+	const quantity = event.target.beerQuantity.value;
 	return function(dispatch) {
-		axios.update('/api/users/cart', {
-			user_id: userId,
+		axios.put('/api/users/cart', {
 			beer_id: beerId,
 			quantity: quantity
 		})
 			.then(res => res.data)
-			.then(beer => dispatch(updateBeerInCart(beer)))
+			.then(beer => dispatch(updateCartItem(beer)))
 			.catch(err => console.error(err));
 	};
 }
 
-export function removeBeerFromCart(beerId, userId) {
+export function removeBeerFromCart(beerId) {
 	return function(dispatch) {
 		axios.delete(`/api/users/cart/${beerId}`)
 			.then(() => dispatch(removeFromCart(beerId)))
@@ -79,9 +84,11 @@ export default function cartReducer(cart = [], action) {
 	case ADD_TO_CART:
 		return [...cart, action.beerToAdd];
 	case UPDATE_CART_ITEM:
-		return cart.map(item => item.id === action.beer.id ? action.beer : item);
+		return cart.map(item => item.beer_id === action.beerToUpdate.beer_id ? action.beerToUpdate : item);
 	case REMOVE_FROM_CART:
-		return cart.filter(item => item.beer.id !== action.beerToRemove);
+		return cart.filter(item => item.beer_id !== action.beerToRemove);
+	case REMOVE_CART:
+		return [];
 	default:
 		return cart;
 	}
