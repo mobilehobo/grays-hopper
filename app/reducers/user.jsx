@@ -7,9 +7,9 @@ export const makeNewUser = (userObj) => ({
 	newUser: userObj
 })
 
-export function postNewStudent(studentObj) {
+export function postNewUser(userObj) {
 	return function (dispatch) {
-		axios.post('/api/users', studentObj)
+		axios.post('/api/users', userObj)
 			.then(res=>res.data)
 			.then(newUser=>dispatch(makeNewUser(newUser)))
 	}
