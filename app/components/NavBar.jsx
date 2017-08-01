@@ -39,7 +39,7 @@ const navBar = (props) => {
 
 		function showOrders() {
 			return (
-				<LinkContainer to={`/users/orders`}>
+				<LinkContainer to={`/orders`}>
 					<NavItem eventKey={4} href="#">
 						Orders
 					</NavItem>
@@ -59,30 +59,6 @@ const navBar = (props) => {
 
 		return (
 				<div>
-						<Row>
-								<Col md={12}>
-										<Navbar>
-												<Nav>
-														{ props.user
-															? showLogout()
-															: showLogin()
-														}
-
-														{ props.user
-															? showOrders()
-															: null
-														}
-														<LinkContainer to={`/users/cart`}>
-																<NavItem eventKey={3} href="#">
-																	Cart
-																</NavItem>
-														</LinkContainer>
-
-												</Nav>
-										</Navbar>
-								</Col>
-						</Row>
-
 						<Row>
 								<Col md={12}>
 										<img width='100%' src="/firedup.gif" />
@@ -141,6 +117,23 @@ const navBar = (props) => {
 																		})
 																}
 														</NavDropdown>
+												</Nav>
+													<Nav pullRight>
+													{ props.user
+																? showLogout()
+																: showLogin()
+															}
+
+															{ props.user
+																? showOrders()
+																: null
+															}
+															<LinkContainer to={`/cart`}>
+																	<NavItem eventKey={3} href="#">
+																		<span className='glyphicon glyphicon-shopping-cart'></span> Cart
+																	</NavItem>
+															</LinkContainer>
+
 												</Nav>
 										</Navbar>
 								</Col>
