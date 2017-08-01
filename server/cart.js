@@ -7,10 +7,9 @@ const Beer = db.model('beer');
 module.exports = require('express')
 	.Router()
 	.get('/', (req, res, next) => {
-		console.log('userId', req.userId);
 		CartItem.findAll({
 			where: {
-				user_id: +req.userId
+				user_id: req.session.passport.user.id
 			},
 			include: [Beer]
 		})
@@ -20,6 +19,7 @@ module.exports = require('express')
 			.catch(next);
 	})
 	.post('/', (req, res, next) => {
+		req.body.user_id = req.session.passport.user.id;
 		CartItem.create(req.body)
 			.then(addedItem => {
 				res.json(addedItem);
@@ -29,7 +29,7 @@ module.exports = require('express')
 	.put('/', (req, res, next) => {
 		CartItem.update(req.body, {
 			where: {
-				user_id: +req.userId
+				user_id: req.session.passport.user.id
 			},
 			include: [Beer],
 			returning: true
@@ -44,7 +44,7 @@ module.exports = require('express')
 			where: {
 				$and: [
 					{ beer_id: req.params.beerId },
-					{ user_id: req.userId }
+					{ user_id: req.session.passport.user.id }
 				]
 			}
 		}).then(() => {

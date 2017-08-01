@@ -20,10 +20,10 @@ class UserCart extends React.Component {
 		return (
 			<div>
 				<ListGroup>
-					{cart.map(item => (<UserCartItem key={item.id} item={item} userId={userId}/>))}
+					{cart.map(item => (<UserCartItem key={item.id} item={item} />))}
 				</ListGroup>
-					<LinkContainer to="/users/1/cart">
-				<Button bsSize="large" bsStyle="success">Checkout <Glyphicon glyph="shopping-cart" /> </Button>
+				<LinkContainer to="/checkout">
+					<Button bsSize="large" bsStyle="success">Checkout <Glyphicon glyph="shopping-cart" /> </Button>
 				</LinkContainer>
 			</div>
 		);

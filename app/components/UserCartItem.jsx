@@ -17,7 +17,7 @@ const UserCartItem = ({ item, userId, removeBeerFromCart }) => {
 					<p>Price of items: ${item.beer.price * item.quantity}</p>
 				</Media.Body>
 				<Media.Right>
-					<Button onClick={() => removeBeerFromCart(item.beer.id, userId)} bsStyle="danger"> <Glyphicon glyph="trash" /> </Button>
+					<Button onClick={() => removeBeerFromCart(item.beer.id)} bsStyle="danger"> <Glyphicon glyph="trash" /> </Button>
 				</Media.Right>
 			</Media>
 		</ListGroupItem>

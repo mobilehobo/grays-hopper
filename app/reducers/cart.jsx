@@ -30,7 +30,7 @@ export const updateCartItem = beerToUpdate => ({
 // thunk functions
 export function fetchUserCart(userId) {
 	return function(dispatch) {
-		axios.get(`/api/users/${userId}/cart`)
+		axios.get('/api/users/cart')
 			.then(res => res.data)
 			.then(cart => dispatch(getUserCart(cart)))
 			.catch(err => console.error(err));
@@ -39,7 +39,7 @@ export function fetchUserCart(userId) {
 
 export function addBeerToCart(quantity, beerId, userId) {
 	return function(dispatch) {
-		axios.post(`/api/users/${userId}/cart`, {
+		axios.post('/api/users/cart', {
 			beer_id: beerId,
 			user_id: userId,
 			quantity: quantity
@@ -52,7 +52,7 @@ export function addBeerToCart(quantity, beerId, userId) {
 
 export function updateBeerInCart(quantity, beerId, userId) {
 	return function(dispatch) {
-		axios.update(`/api/users/${userId}/cart`, {
+		axios.update('/api/users/cart', {
 			user_id: userId,
 			beer_id: beerId,
 			quantity: quantity
@@ -65,7 +65,7 @@ export function updateBeerInCart(quantity, beerId, userId) {
 
 export function removeBeerFromCart(beerId, userId) {
 	return function(dispatch) {
-		axios.delete(`/api/users/${userId}/cart/${beerId}`)
+		axios.delete(`/api/users/cart/${beerId}`)
 			.then(() => dispatch(removeFromCart(beerId)))
 			.catch(err => console.error(err));
 	};
