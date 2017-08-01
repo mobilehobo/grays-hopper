@@ -25,7 +25,7 @@ const SignupLogin = (props) => {
 		event.preventDefault()
 		const username = event.target.username.value,
 			password = event.target.password.value
-		login(username,password)
+		props.login(username,password)
 	}
 
 	return (
@@ -35,7 +35,7 @@ const SignupLogin = (props) => {
 				<input name="firstName" placeholder='First Name'/> <br/>
 				<input name="lastName" placeholder= "Last Name"/> <br/>
 				<input name="email" placeholder="Email"/> <br/>
-				<input name="address" placeholder="Address"/> <br/> 
+				<input name="address" placeholder="Address"/> <br/>
 				<input name="password" placeholder="Password" type="password"/><br/>
 				<input type="submit" value="SignUp" /><br/>
 			</form>
