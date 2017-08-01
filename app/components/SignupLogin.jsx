@@ -6,10 +6,7 @@ import { Row, Col } from 'react-bootstrap'
 
 const SignupLogin = (props) => {
 
-	console.log(props)
-
 	const submitSignUp = (event) => {
-		console.log('sign up firing')
 		event.preventDefault()
 		const firstName = event.target.firstName.value,
 			lastName = event.target.lastName.value,
@@ -21,31 +18,31 @@ const SignupLogin = (props) => {
 	}
 
 	const submitLogin = (event) => {
-		console.log('login firing')
 		event.preventDefault()
 		const username = event.target.username.value,
 			password = event.target.password.value
-		login(username,password)
+		props.login(username,password)
 	}
 
 	return (
 		<Col md={12}>
-			<h1> Sign Up </h1>
+		<h1> Login </h1>
+			<form
+				onSubmit={submitLogin}>
+				<input name="username" placeholder="Email" /><br/>
+				<input name="password" placeholder="Password" type="password"/><br/>
+				<input type="submit" value="Login" /><br/>
+			</form>
+
+
+		<h1> Sign Up </h1>
 			<form onSubmit={submitSignUp}>
 				<input name="firstName" placeholder='First Name'/> <br/>
 				<input name="lastName" placeholder= "Last Name"/> <br/>
 				<input name="email" placeholder="Email"/> <br/>
-				<input name="address" placeholder="Address"/> <br/> 
+				<input name="address" placeholder="Address"/> <br/>
 				<input name="password" placeholder="Password" type="password"/><br/>
-				<input type="submit" value="SignUp" /><br/>
-			</form>
-
-			<h1> Login </h1>
-			<form
-				onSubmit={submitLogin}>
-				<input name="username" placeholder="Username" /><br/>
-				<input name="password" placeholder="Password" type="password"/><br/>
-				<input type="submit" value="login" /><br/>
+				<input type="submit" value="Sign Up" /><br/>
 			</form>
 		</Col>
 	)
