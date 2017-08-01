@@ -7,13 +7,11 @@ export const makeNewUser = (userObj) => ({
 	newUser: userObj
 })
 
-export function postNewUser(userObj) {
-	return function (dispatch) {
-		axios.post('/api/users', userObj)
+export const postNewUser = (userObj) => dispatch =>
+		axios
+			.post('/api/users', userObj)
 			.then(res=>res.data)
 			.then(newUser=>dispatch(makeNewUser(newUser)))
-	}
-}
 
 export default function userReducer(users=[], action){
 	switch(action.type){
