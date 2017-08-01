@@ -13,6 +13,7 @@ import Checkout from './Checkout'
 import SingleCountry from './SingleCountry.jsx'
 import SingleType from './SingleType.jsx'
 import Login from './Login.jsx'
+import SignupLogin from './SignupLogin.jsx'
 
 import { fetchAllBeers } from '../reducers/beer.jsx'
 import { fetchAllBreweries } from '../reducers/parentCompany.jsx'
@@ -33,7 +34,7 @@ export class App extends React.Component {
                     <Switch>
                         <Route exact path='/' component={AllBeers} />
                         <Route path='/beers/:beerId' component={SingleBeer} />
-                        <Route path='/login' component={Login} />
+                        <Route path='/login' component={SignupLogin} />
                         <Route path='/breweries/:breweryId' component={SingleBrewery} />
 												<Route path='/cart' component={UserCart} />
 												<Route path='/checkout' component={Checkout} />
