@@ -20,7 +20,7 @@ class AddToCart extends Component {
 
 	handleSubmit(event) {
 		event.preventDefault();
-		this.props.addBeerToCart(this.state.quantity, this.props.currentBeer, 1); // userId hardcoded to 1
+		this.props.addBeerToCart(this.state.quantity, this.props.currentBeer);
 	}
 
 	render() {

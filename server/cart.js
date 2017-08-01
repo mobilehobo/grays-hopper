@@ -17,14 +17,14 @@ module.exports = require('express')
 			.catch(next);
 	})
 	.post('/', (req, res, next) => {
-		CartItem.create(req.body)
+		return CartItem.create(req.body)
 			.then(addedItem => {
 				res.json(addedItem);
 			})
 			.catch(next);
 	})
 	.put('/', (req, res, next) => {
-		CartItem.update(req.body, {
+		return CartItem.update(req.body, {
 			where: {
 				user_id: req.params.id
 			},

@@ -10,9 +10,10 @@ const Bluebird = require('bluebird');
 module.exports = require('express')
 	.Router()
 	.get('/', (req, res, next) => {
+		console.log(req.session)
 		Order.findAll({
 			where: {
-				user_id: req.userId
+				user_id: req.body.user_id
 			},
 			include: [{
 				model: OrderItem,
@@ -38,7 +39,7 @@ module.exports = require('express')
 			.catch(next);
 	})
 	.post('/', (req, res, next) => {
-		const userId = req.userId;
+		const userId = req.body.user_id;
 		let orderId;
 		const userObj = {user_id: +userId}
 		Order.create(userObj)
@@ -79,7 +80,7 @@ module.exports = require('express')
 	.put('/', (req, res, next) => {
 		Order.update(req.body, {
 			where: {
-				user_id: req.params.id
+				user_id: req.body.user_id
 			},
 			include: [Beer],
 			returning: true
@@ -92,7 +93,7 @@ module.exports = require('express')
 	.delete('/', (req, res, next) => {
 		Order.destroy({
 			where: {
-				user_id: req.params.id
+				user_id: req.body.user_id
 			}
 		}).then(() => {
 			res.sendStatus(200);

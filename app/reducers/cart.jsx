@@ -11,11 +11,14 @@ export const addToCart = (beerToAdd) => ({
 })
 
 //thunk functions
-export function addBeerToCart(quantity, beerId, userId) {
+export function addBeerToCart(quantity, beerId) {
 	return function (dispatch) {
-		axios.post(`/api/users/${userId}/cart`, { beer_id: beerId, user_id: userId, quantity: quantity })
-			.then(res => res.data)
-			.then(addedBeer => dispatch(addToCart(addedBeer)))
+		axios.post('/api/users/cart', {
+			beer_id: beerId,
+			quantity: quantity
+		})
+		.then(res => res.data)
+		.then(addedBeer => dispatch(addToCart(addedBeer)))
 	}
 }
 
