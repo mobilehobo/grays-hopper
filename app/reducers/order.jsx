@@ -12,7 +12,7 @@ export const setAllOrdersForUser = (allOrders) => ({
 // thunk functions
 export const fetchAllOrdersById = userId => {
 	return dispatch => {
-		axios.get(`/api/users/${userId}/orders`)
+		axios.get('/api/users/orders')
 			.then(res => res.data)
 			.then(allOrders => {
 				dispatch(setAllOrdersForUser(allOrders))

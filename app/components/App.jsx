@@ -32,7 +32,7 @@ export class App extends React.Component {
                         <Route path='/beers/:beerId' component={SingleBeer} />
                         <Route path='/login' component={Login} />
                         <Route path='/breweries/:breweryId' component={SingleBrewery} />
-                        <Route path='/users/:userId/orders' component={AllOrders} />
+                        <Route path='/users/orders' component={AllOrders} />
                         <Route path='/types/:typeName' component={SingleType} />
                         <Route path='/countries/:countryName' component={SingleCountry} />
                     </Switch>
