@@ -8,9 +8,7 @@ const { mustBeLoggedIn, forbidden, assertAdmin } = require('./auth.filters');
 module.exports = require('express')
 .Router()
 .use('/', (req, res, next) => {
-		 //req.userId = id;
-		 console.log(req)
-		 req.body.user_id = req.session.passport.user || 8000
+		 req.body.user_id = req.session.passport ? req.session.passport.user : 8000;
 	next();
 })
 .use('/cart', require('./cart'))
@@ -24,7 +22,7 @@ module.exports = require('express')
 		// have to add a role column to the users table to support
 		// the concept of admin users.
 		)
-.post('/', assertAdmin, (req, res, next) =>
+.post('/', (req, res, next) =>
 	User.create(req.body).then(user => res.status(201).json(user)).catch(next)
   )
 .get('/:id', mustBeLoggedIn, (req, res, next) =>
