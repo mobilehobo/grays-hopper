@@ -2,7 +2,6 @@ import React from 'react'
 import BeerItems from './BeerItems'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-
 import { Row, Col, Carousel } from 'react-bootstrap'
 
 const AllBeers = (props) => {
