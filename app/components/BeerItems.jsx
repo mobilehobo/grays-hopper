@@ -17,6 +17,11 @@ export class BeerItems extends React.Component {
         this.searchButtonClick = this.searchButtonClick.bind(this)
         this.filterButtonClick = this.filterButtonClick.bind(this)
         this.searchChange = this.searchChange.bind(this)
+        this.preventDefault = this.preventDefault.bind(this)
+    }
+
+    preventDefault(event){
+        event.preventDefault()
     }
 
     searchButtonClick() {
@@ -76,13 +81,14 @@ export class BeerItems extends React.Component {
 
                 {this.state.showSearch &&
                     <Col md={12}>
-                        <form>
-                            <FormGroup>
+                        <form onSubmit={this.preventDefault}>
+                            <FormGroup >
                                 <FormControl
                                     type="text"
                                     placeholder="Insert keyword(s)"
                                     value={this.state.searchValue}
                                     onChange={this.searchChange}
+                                    
                                 />
                                 <FormControl.Feedback />
                             </FormGroup>
