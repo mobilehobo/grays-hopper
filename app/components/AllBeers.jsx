@@ -1,9 +1,9 @@
 import React from 'react'
-import BeerItems from './BeerItems'
+import SearchFilter from './SearchFilter'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { Row, Col, Carousel } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 
 const AllBeers = (props) => {
     const beerList = props.beers
@@ -16,7 +16,7 @@ const AllBeers = (props) => {
                 <h3 className='title'> All Beers </h3>
             </Col>
 
-            <BeerItems />
+            <SearchFilter />
         </Col>
     )
 }
