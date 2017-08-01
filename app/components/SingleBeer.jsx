@@ -45,7 +45,7 @@ const SingleBeer = (props) => {
                             </li>
 
                             <li className="list-group-item">
-                                {selectedBeer.parent_company_id.name || "undefined"}
+                                {selectedBeer.parentCompany.name}
                             </li>
                         </ul>
 
