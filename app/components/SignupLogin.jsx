@@ -2,10 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { postNewUser } from '../reducers/user.jsx'
 import { login } from '../reducers/auth.jsx'
+import { Row, Col } from 'react-bootstrap'
 
-const Signup = (props) => {
+const SignupLogin = (props) => {
+
+	console.log(props)
 
 	const submitSignUp = (event) => {
+		console.log('sign up firing')
 		event.preventDefault()
 		const firstName = event.target.firstName.value,
 			lastName = event.target.lastName.value,
@@ -17,6 +21,7 @@ const Signup = (props) => {
 	}
 
 	const submitLogin = (event) => {
+		console.log('login firing')
 		event.preventDefault()
 		const username = event.target.username.value,
 			password = event.target.password.value
@@ -24,25 +29,25 @@ const Signup = (props) => {
 	}
 
 	return (
-		<div>
+		<Col md={12}>
 			<h1> Sign Up </h1>
 			<form onSubmit={submitSignUp}>
-				<input name="firstName" />
-				<input name="lastName" />
-				<input name="email" />
-				<input name="address" />
-				<input name="password" />
-				<input type="submit" value="SignUp" />
+				<input name="firstName" placeholder='First Name'/> <br/>
+				<input name="lastName" placeholder= "Last Name"/> <br/>
+				<input name="email" placeholder="Email"/> <br/>
+				<input name="address" placeholder="Address"/> <br/> 
+				<input name="password" placeholder="Password" type="password"/><br/>
+				<input type="submit" value="SignUp" /><br/>
 			</form>
 
 			<h1> Login </h1>
 			<form
 				onSubmit={submitLogin}>
-				<input name="username" />
-				<input name="password"/>
-				<input type="submit" value="login" />
+				<input name="username" placeholder="Username" /><br/>
+				<input name="password" placeholder="Password" type="password"/><br/>
+				<input type="submit" value="login" /><br/>
 			</form>
-		</div>
+		</Col>
 	)
 }
 
@@ -51,4 +56,4 @@ const mapThunksToProps = dispatch => ({
 	login: (username, password) => dispatch(login(username, password))
 })
 
-export default connect(mapThunksToProps)(SignupLogin)
+export default connect(null,mapThunksToProps)(SignupLogin)

@@ -50,7 +50,7 @@ const navBar = (props) => {
 		function showLogin() {
 			return (
 			<LinkContainer to={'/login'}>
-				<NavItem eventKey={2} href="#">
+				<NavItem>
 					Login
 				</NavItem>
 			</LinkContainer>
