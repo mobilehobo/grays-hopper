@@ -1,20 +1,17 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch, withRouter } from "react-router-dom";
 import { connect } from 'react-redux'
 
 import NavBar from "./NavBar.jsx"
 import AllBeers from './AllBeers.jsx'
 import SingleBeer from './SingleBeer.jsx'
 import SingleBrewery from './SingleBrewery.jsx'
-
 import AllOrders from './AllOrders.jsx'
 import UserCartWCheckout from './UserCartWCheckout'
 import Checkout from './Checkout'
 import SingleCountry from './SingleCountry.jsx'
 import SingleType from './SingleType.jsx'
-import Login from './Login.jsx'
 import SignupLogin from './SignupLogin.jsx'
-
 import { fetchAllBeers } from '../reducers/beer.jsx'
 import { fetchAllBreweries } from '../reducers/parentCompany.jsx'
 
@@ -49,13 +46,13 @@ export class App extends React.Component {
 }
 
 const mapStateToProps = storeState => ({
-    beers: storeState.beers,
-    breweries: storeState.breweries,
+		beers: storeState.beers,
+		breweries: storeState.breweries,
 })
 
 const mapThunksToProps = dispatch => ({
-    loadAllBeers: () => dispatch(fetchAllBeers()),
-    loadAllBreweries: () => dispatch(fetchAllBreweries())
+		loadAllBeers: () => dispatch(fetchAllBeers()),
+		loadAllBreweries: () => dispatch(fetchAllBreweries())
 })
 
-export default connect(mapStateToProps, mapThunksToProps)(App)
+export default withRouter(connect(mapStateToProps, mapThunksToProps)(App))

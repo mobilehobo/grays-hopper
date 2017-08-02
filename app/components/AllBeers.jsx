@@ -2,8 +2,7 @@ import React from 'react'
 import SearchFilter from './SearchFilter'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col, Carousel } from 'react-bootstrap'
 
 const AllBeers = (props) => {
     const beerList = props.beers
