@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 
 const SingleCountry = props => {
-	const selectedCountry = +props.match.params.countryName;
+	const selectedCountry = props.match.params.countryName;
 	const beerList = props.beers;
 
 	const matchedBeers = beerList.filter(beer => beer.country === selectedCountry);
