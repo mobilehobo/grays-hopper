@@ -15,9 +15,9 @@ const UserCartItem = ({ item, userId, updateBeerInCart, removeBeerFromCart, chec
 					<form onSubmit={event => updateBeerInCart(event, item.beer.id)}>
 						<Media.Heading>{item.beer.name}</Media.Heading>
 						<label htmlFor="beerQuantity">Quantity
-							<input name="beerQuantity" type="number" min="1" max="100" defaultValue={item.quantity} disabled={checkout}/>
+							<input name="beerQuantity" type="number" min="1" max="100" defaultValue={item.quantity} disabled={checkout} />
 						</label>
-						{!checkout && <Button type="submit" bsStyle="warning"> Update <Glyphicon glyph="pencil" /> </Button> }
+						{!checkout && <Button type="submit" bsStyle="warning"> Update <Glyphicon glyph="pencil" /> </Button>}
 						<p>Price of items: ${(item.beer.price * item.quantity).toFixed(2)}</p>
 					</form>
 				</Media.Body>

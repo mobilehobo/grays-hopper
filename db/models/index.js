@@ -5,7 +5,7 @@
 // to get access to the User model.
 
 const app = require('APP'),
-debug = require('debug')(`${app.name}:models`),
+	debug = require('debug')(`${app.name}:models`),
 	// Our model files export functions that take a database and return
 	// a model. We call these functions "meta models" (they are models of
 	// models).
@@ -27,7 +27,7 @@ debug = require('debug')(`${app.name}:models`),
 	},
 	{ mapValues } = require('lodash');
 
-	module.exports = db => {
+module.exports = db => {
 	// Create actual model classes by calling each meta model with the
 	// database.
 	const models = mapValues(metaModels, defineModel => defineModel(db));

@@ -20,7 +20,7 @@ function seedEverything() {
 	return Promise.props(seeded);
 }
 
-const cartItems = seed(CartItem, ({beers, users}) => ({
+const cartItems = seed(CartItem, ({ beers, users }) => ({
 	'1stItem': {
 		beer_id: 4,
 		user_id: 2,
@@ -38,7 +38,7 @@ const cartItems = seed(CartItem, ({beers, users}) => ({
 	}
 }));
 
-const orderItems = seed(OrderItem, ({beers, users, cartItems}) => ({
+const orderItems = seed(OrderItem, ({ beers, users, cartItems }) => ({
 	'1stOrderItem': {
 		beer_id: 1,
 		user_id: 1,
@@ -80,7 +80,7 @@ const orderItems = seed(OrderItem, ({beers, users, cartItems}) => ({
 	}
 }));
 
-const orders = seed(Order, ({users}) => ({
+const orders = seed(Order, ({ users }) => ({
 	'1stOrder': {
 		user_id: users.user1.id
 	},
@@ -589,9 +589,9 @@ const beers = seed(Beer, ({ tags, carts, parentCompany }) => ({
 
 if (module === require.main) {
 	db.didSync
-	.then(() => db.sync({ force: true }))
-	.then(seedEverything)
-	.finally(() => process.exit(0));
+		.then(() => db.sync({ force: true }))
+		.then(seedEverything)
+		.finally(() => process.exit(0));
 }
 
 class BadRow extends Error {
@@ -621,41 +621,41 @@ function seed(Model, rows) {
 	return (others = {}) => {
 		if (typeof rows === 'function') {
 			rows = Promise.props(
-			  mapValues(
-         others,
-         other =>
-					// Is other a function? If so, call it. Otherwise, leave it alone.
-					typeof other === 'function' ? other() : other
+				mapValues(
+					others,
+					other =>
+						// Is other a function? If so, call it. Otherwise, leave it alone.
+						typeof other === 'function' ? other() : other
 				)
 			).then(rows)
-			.catch(error => console.error(error));
+				.catch(error => console.error(error));
 		}
 
 		return Promise.resolve(rows)
-		.then(rows =>
-		      Promise.props(
-            Object.keys(rows)
-            .map(key => {
-            	const row = rows[key];
-            	return {
-            		key,
-            		value: Promise.props(row).then(row =>
-                   Model.create(row).catch(error => {
-                   	throw new BadRow(key, row, error);
-                   })
-                   )
-            	};
-            })
-            .reduce((all, one) => Object.assign({}, all, { [one.key]: one.value }), {})
-            )
-		      )
-		.then(seeded => {
-			console.log(`Seeded ${Object.keys(seeded).length} ${Model.name} OK`);
-			return seeded;
-		})
-		.catch(error => {
-			console.error(`Error seeding ${Model.name}: ${error} \n${error.stack}`);
-		});
+			.then(rows =>
+				Promise.props(
+					Object.keys(rows)
+						.map(key => {
+							const row = rows[key];
+							return {
+								key,
+								value: Promise.props(row).then(row =>
+									Model.create(row).catch(error => {
+										throw new BadRow(key, row, error);
+									})
+								)
+							};
+						})
+						.reduce((all, one) => Object.assign({}, all, { [one.key]: one.value }), {})
+				)
+			)
+			.then(seeded => {
+				console.log(`Seeded ${Object.keys(seeded).length} ${Model.name} OK`);
+				return seeded;
+			})
+			.catch(error => {
+				console.error(`Error seeding ${Model.name}: ${error} \n${error.stack}`);
+			});
 	};
 }
 

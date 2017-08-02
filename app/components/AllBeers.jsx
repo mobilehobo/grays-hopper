@@ -1,28 +1,26 @@
-import React from 'react'
-import SearchFilter from './SearchFilter'
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { Row, Col, Carousel } from 'react-bootstrap'
+import React from 'react';
+import SearchFilter from './SearchFilter';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Row, Col, Carousel } from 'react-bootstrap';
 
 const AllBeers = (props) => {
-    const beerList = props.beers
+	const beerList = props.beers;
 
-    if (!beerList) return <p> loading... </p>
-    return (
+	if (!beerList) return <p> loading... </p>;
+	return (
+		<Col md={12}>
+			<Col md={12}>
+				<h3 className='title'> All Beers </h3>
+			</Col>
 
-        <Col md={12}>
-            <Col md={12}>
-                <h3 className='title'> All Beers </h3>
-            </Col>
-
-            <SearchFilter />
-        </Col>
-    )
-}
+			<SearchFilter />
+		</Col>
+	);
+};
 
 const mapStateToProps = storeState => ({
-    beers: storeState.beers,
-})
+	beers: storeState.beers
+});
 
-export default connect(mapStateToProps)(AllBeers)
-
+export default connect(mapStateToProps)(AllBeers);

@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Nav, NavItem, NavDropdown, MenuItem, Navbar } from 'react-bootstrap';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Nav, NavItem, NavDropdown, MenuItem, Navbar } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { logout } from '../reducers/auth';
@@ -37,7 +36,7 @@ const navBar = props => {
 
 	function showOrders() {
 		return (
-			<LinkContainer to={`/orders`}>
+			<LinkContainer to={'/orders'}>
 				<NavItem eventKey={4} href="#">
 					Orders
 				</NavItem>
@@ -109,7 +108,7 @@ const navBar = props => {
 							{props.user ? showLogout() : showLogin()}
 
 							{props.user ? showOrders() : null}
-							<LinkContainer to={`/cart`}>
+							<LinkContainer to={'/cart'}>
 								<NavItem eventKey={3} href="#">
 									<span className="glyphicon glyphicon-shopping-cart" /> Cart
 								</NavItem>

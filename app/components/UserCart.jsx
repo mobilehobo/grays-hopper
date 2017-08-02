@@ -31,7 +31,7 @@ class UserCart extends React.Component {
 	}
 };
 
-const mapStateToProps = state => ({ cart: state.cart, user: state.auth });
+const mapStateToProps = storeState => ({ cart: storeState.cart, user: storeState.auth });
 
 const mapDispatchToProps = { fetchUserCart };
 

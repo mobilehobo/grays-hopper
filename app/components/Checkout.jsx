@@ -13,7 +13,7 @@ const Checkout = ({ createNewOrder, history }) => {
 			<UserCart checkout="true" />
 			<Button onClick={() => {
 				createNewOrder()
-					.then(() => history.push('/orders'))
+					.then(() => history.push('/orders'));
 			}
 			} bsSize="large" bsStyle="success">Place Order</Button>
 		</div>

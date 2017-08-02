@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
-const sequelize = require("sequelize");
+const sequelize = require('sequelize');
 
 module.exports = db =>
-	db.define("cartItem", {
+	db.define('cartItem', {
 		quantity: {
 			type: sequelize.INTEGER,
 			allowNull: false,

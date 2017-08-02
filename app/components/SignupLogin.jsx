@@ -5,13 +5,12 @@ import { login } from '../reducers/auth.jsx';
 import { Row, Col } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Alert } from 'react-bootstrap';
 
 class SignupLogin extends Component {
 	constructor() {
 		super();
-		this.submitSignup = this.submitSignup.bind(this)
-		this.submitLogin = this.submitLogin.bind(this)
+		this.submitSignup = this.submitSignup.bind(this);
+		this.submitLogin = this.submitLogin.bind(this);
 	}
 
 	submitSignup = event => {
@@ -23,7 +22,7 @@ class SignupLogin extends Component {
 			password = event.target.password.value;
 		const newUser = { firstName, lastName, email, address, password };
 		this.props.addUser(newUser).then(() => {
-			if (this.props.user) this.props.history.push('/')
+			if (this.props.user) this.props.history.push('/');
 		});
 	};
 
@@ -68,9 +67,9 @@ const mapStateToProps = storeState => ({
 	user: storeState.auth
 });
 
-const mapThunksToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
 	addUser: newUser => dispatch(postNewUser(newUser)),
 	login: (username, password) => dispatch(login(username, password))
 });
 
-export default withRouter(connect(mapStateToProps, mapThunksToProps)(SignupLogin));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignupLogin));
