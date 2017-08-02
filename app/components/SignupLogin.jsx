@@ -34,7 +34,6 @@ class SignupLogin extends Component {
 	};
 
 	render() {
-		console.log(this.state);
 		return (
 			<Col md={12}>
 				<h1> Login </h1>
