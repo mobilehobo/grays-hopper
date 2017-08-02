@@ -13,13 +13,13 @@ import { Provider, connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 import store from './store';
-import App from './components/App.jsx'
+import App from './components/App.jsx';
 
 render(
-  <Provider store={store}>
-    <Router>
-      <App />
-    </Router>
-  </Provider>,
-  document.getElementById('main')
+	<Provider store={store}>
+		<Router>
+			<App />
+		</Router>
+	</Provider>,
+	document.getElementById('main')
 );

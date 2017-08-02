@@ -1,81 +1,82 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { Col } from 'react-bootstrap'
-import { Form, Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
-import BeerItems from './BeerItems.jsx'
+import React from 'react';
+import { connect } from 'react-redux';
+import { Col, Form, Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import BeerItems from './BeerItems.jsx';
 
 class SearchFilter extends React.Component {
 	constructor(props) {
-		super(props)
+		super(props);
 		this.state = {
 			showSearch: false,
 			showFilter: false,
 			filterFired: false,
 			searchValue: '',
-
 			priceMin: 0,
 			priceMax: 0,
 			IBUMin: 0,
 			IBUMax: 0,
 			ABVMin: 0,
 			ABVMax: 0,
-		}
-		this.searchButtonClick = this.searchButtonClick.bind(this)
-		this.filterButtonClick = this.filterButtonClick.bind(this)
-		this.searchChange = this.searchChange.bind(this)
-		this.preventDefault = this.preventDefault.bind(this)
-		this.onFilterSubmit = this.onFilterSubmit.bind(this)
+		};
+		this.searchButtonClick = this.searchButtonClick.bind(this);
+		this.filterButtonClick = this.filterButtonClick.bind(this);
+		this.searchChange = this.searchChange.bind(this);
+		this.preventDefault = this.preventDefault.bind(this);
+		this.onFilterSubmit = this.onFilterSubmit.bind(this);
 	}
 
 	preventDefault(event) {
-		event.preventDefault()
+		event.preventDefault();
 	}
 	searchButtonClick() {
-		if (this.state.showSearch) this.setState({ showSearch: false })
-		else this.setState({
-			showSearch: true,
-			showFilter: false,
-			filterFired: false,
-			priceMin: 0,
-			priceMax: 0,
-			IBUMin: 0,
-			IBUMax: 0,
-			ABVMin: 0,
-			ABVMax: 0,
-		})
+		if (this.state.showSearch) {
+			this.setState({ showSearch: false });
+		} else {
+			this.setState({
+				showSearch: true,
+				showFilter: false,
+				filterFired: false,
+				priceMin: 0,
+				priceMax: 0,
+				IBUMin: 0,
+				IBUMax: 0,
+				ABVMin: 0,
+				ABVMax: 0,
+			});
+		}
 	}
 	filterButtonClick() {
-		if (this.state.showFilter) this.setState({ showFilter: false })
-		else this.setState({ showFilter: true, showSearch: false, searchValue: '' })
+		if (this.state.showFilter) this.setState({ showFilter: false });
+		else this.setState({ showFilter: true, showSearch: false, searchValue: '' });
 	}
 	searchChange(event) {
-		this.setState({ searchValue: event.target.value })
+		this.setState({ searchValue: event.target.value });
 	}
 	onFilterSubmit(event) {
-		event.preventDefault()
+		event.preventDefault();
 		const priceMin = document.getElementById('priceMin').value,
 			priceMax = document.getElementById('priceMax').value,
 			IBUMin = document.getElementById('IBUMin').value,
 			IBUMax = document.getElementById('IBUMax').value,
 			ABVMin = document.getElementById('ABVMin').value,
-			ABVMax = document.getElementById('ABVMax').value
-		if (priceMax && priceMin && IBUMin && IBUMax && ABVMin && ABVMax) this.setState({ priceMin, priceMax, IBUMin, IBUMax, ABVMin, ABVMax, filterFired: true })
+			ABVMax = document.getElementById('ABVMax').value;
+		if (priceMax && priceMin && IBUMin && IBUMax && ABVMin && ABVMax) this.setState({ priceMin, priceMax, IBUMin, IBUMax, ABVMin, ABVMax, filterFired: true });
 	}
 
 	render() {
-		const beerList = this.props.beers
-		let selectedBeers = []
+		const beerList = this.props.beers;
+		let selectedBeers = [];
 
 		beerList.forEach(beer => {
-			beer.tagsArr = []
+			beer.tagsArr = [];
 			beer.tags.forEach(tag => {
-				beer.tagsArr.push(tag.name.toLowerCase())
-			})
-		})
+				beer.tagsArr.push(tag.name.toLowerCase());
+			});
+		});
 
 		if (this.state.showSearch && !this.state.filterFired) {
 			selectedBeers = beerList.filter(beer => {
-				const searchValue = this.state.searchValue.toLowerCase()
+				const searchValue = this.state.searchValue.toLowerCase();
 				return (
 					beer.tagsArr.includes(searchValue) ||
 					beer.beerType.toLowerCase().includes(searchValue) ||
@@ -86,28 +87,25 @@ class SearchFilter extends React.Component {
 					beer.country.toLowerCase().includes(searchValue) ||
 					beer.parentCompany.name.toLowerCase().includes(searchValue) ||
 					beer.name.toLowerCase().includes(searchValue)
-				)
-			})
+				);
+			});
 		}
 
 		if (this.state.filterFired) {
-			const state = this.state
-			console.log(state)
+			const state = this.state;
 			selectedBeers = beerList.filter(beer => {
 				return (
 					beer.price >= state.priceMin && beer.price <= state.priceMax &&
 					beer.ibu >= state.IBUMin && beer.ibu <= state.IBUMax &&
 					beer.abv >= state.ABVMin && beer.abv <= state.ABVMax
-				)
-			})
-			console.log(selectedBeers)
+				);
+			});
+		} else {
+			selectedBeers = beerList;
 		}
 
-		else selectedBeers = beerList;
-
 		return (
-			< Col >
-
+			<Col>
 				{/* BUTTONS */}
 				<Col md={12}>
 					<Button onClick={this.searchButtonClick}> Search </Button>
@@ -159,13 +157,12 @@ class SearchFilter extends React.Component {
 
 				{/* BEERITEMS */}
 				<BeerItems selectedBeers={selectedBeers} />
-			</Col >
-		)
+			</Col>
+		);
 	}
 }
 
 const mapStateToProps = storeState => ({
 	beers: storeState.beers,
-})
-export default connect(mapStateToProps)(SearchFilter)
-
+});
+export default connect(mapStateToProps)(SearchFilter);

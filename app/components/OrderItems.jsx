@@ -30,7 +30,7 @@ class OrderItems extends Component {
 					);
 				})}
 			</Row>
-		)
+		);
 	}
 }
 
