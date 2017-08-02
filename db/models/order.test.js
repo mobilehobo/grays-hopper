@@ -5,7 +5,7 @@ const db = require('APP/db'),
 	{ expect } = require('chai');
 const { seedEverything } = require('../seed');
 
-describe('Order', () => {
+xdescribe('Order', () => {
 	before('Await database sync', () => {
 		return db.didSync
 			.then(() => {

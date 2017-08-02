@@ -1,36 +1,43 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import {connect} from 'react-redux'
-import { fetchAllOrdersById } from '../reducers/order'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Row, Col, Clearfix } from 'react-bootstrap';
+
+import { fetchAllOrdersById } from '../reducers/order';
 import SingleOrder from './SingleOrder';
 
 class OrderItems extends Component {
 	componentDidMount() {
-		this.props.fetchAllOrdersById() // hardcoded to user id 1
+		this.props.fetchAllOrdersById();
 	}
 
 	render() {
 		const orderList = this.props.orders;
-		if (!orderList) return <p> loading... </p>
+		if (!orderList) return <p> loading... </p>;
+		let rows = 0;
 
 		return (
-			<div className='row'>
+			<Row>
 				{orderList.map(order => {
+					rows++;
 					return (
-						<div key={order.id} className='col-lg-4'>
-							<SingleOrder order={order} />
+						<div>
+							<Col lg={4}>
+								<SingleOrder order={order} />
+							</Col>
+							{rows % 3 === 0 && <Clearfix visibleLgBlock />}
 						</div>
-					)
+					);
 				})}
-			</div>
+			</Row>
 		)
 	}
 }
 
 const mapStateToProps = storeState => ({
 	orders: storeState.orders
-})
+});
 
-const mapDispatchToProps = { fetchAllOrdersById }
+const mapDispatchToProps = { fetchAllOrdersById };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderItems)
+export default connect(mapStateToProps, mapDispatchToProps)(OrderItems);
