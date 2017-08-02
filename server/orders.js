@@ -19,7 +19,10 @@ module.exports = require('express')
 				include: [{
 					model: Beer
 				}]
-			}]
+			}],
+			order: [
+				['created_at', 'DESC']
+			]
 		})
 			.then(orders => res.json(orders))
 			.catch(next);
