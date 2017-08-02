@@ -8,6 +8,8 @@ import SingleBeer from './SingleBeer.jsx'
 import SingleBrewery from './SingleBrewery.jsx'
 
 import AllOrders from './AllOrders.jsx'
+import UserCartWCheckout from './UserCartWCheckout'
+import Checkout from './Checkout'
 import SingleCountry from './SingleCountry.jsx'
 import SingleType from './SingleType.jsx'
 import Login from './Login.jsx'
@@ -34,6 +36,8 @@ export class App extends React.Component {
                         <Route path='/beers/:beerId' component={SingleBeer} />
                         <Route path='/login' component={SignupLogin} />
                         <Route path='/breweries/:breweryId' component={SingleBrewery} />
+												<Route path='/cart' component={UserCartWCheckout} />
+												<Route path='/checkout' component={Checkout} />
                         <Route path='/orders' component={AllOrders} />
                         <Route path='/types/:typeName' component={SingleType} />
                         <Route path='/countries/:countryName' component={SingleCountry} />
