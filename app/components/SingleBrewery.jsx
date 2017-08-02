@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 
 const SingleBrewery = props => {
-	const selectedBreweryId = props.match.params.breweryId;
+	const selectedBreweryId = +props.match.params.breweryId;
 	const beerList = props.beers;
 	const breweriesList = props.breweries;
 

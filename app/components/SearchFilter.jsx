@@ -89,9 +89,7 @@ class SearchFilter extends React.Component {
 					beer.name.toLowerCase().includes(searchValue)
 				);
 			});
-		}
-
-		if (this.state.filterFired) {
+		}	else if (this.state.filterFired) {
 			const state = this.state;
 			selectedBeers = beerList.filter(beer => {
 				return (

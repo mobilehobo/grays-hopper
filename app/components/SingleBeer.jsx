@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import AddToCart from './AddToCart';
 import setCurrentBeer from '../reducers/cart';
 
-const SingleBeer = (props) => {
+const SingleBeer = props => {
 	const beerList = props.beers;
-	const selectedBeerId = props.match.params.beerId;
+	const selectedBeerId = +props.match.params.beerId;
 
 	const selectedBeer = beerList.find(beer => beer.id === selectedBeerId);
 

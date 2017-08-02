@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-const SingleOrder = (props) => {
+const SingleOrder = props => {
 	const selectedOrder = props.order;
 
 	if (!selectedOrder) return <p> loading... </p>;
