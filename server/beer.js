@@ -18,14 +18,6 @@ module.exports = require('express')
 			})
 			.catch(next);
 	})
-	// .get('/:id', (req, res, next) => {
-	// 	Beer.findById(req.params.id)
-	// 		.then(oneBeer => {
-	// 			if (!oneBeer) res.sendStatus(404);
-	// 			else res.json(oneBeer);
-	// 		})
-	// 		.catch(next);
-	// })
 	.post('/', (req, res, next) => {
 		Beer.create(req.body)
 			.then(newBeer => {

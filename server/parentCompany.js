@@ -11,4 +11,4 @@ module.exports = require('express')
 				res.json(companies);
 			})
 			.catch(next);
-	})
+	});

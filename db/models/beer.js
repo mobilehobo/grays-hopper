@@ -62,27 +62,27 @@ module.exports = db => {
 			validate: { notEmpty: true }
 		}
 	},
-	{
-		getterMethods: {
-			priceRating: function() {
-				let price = this.price;
-				switch (price) {
+		{
+			getterMethods: {
+				priceRating: function() {
+					const price = this.price;
+					switch (price) {
 					case price <= 2:
-					return 1;
+						return 1;
 					case price <= 4:
-					return 2;
+						return 2;
 					case price <= 6:
-					return 3;
+						return 3;
 					case price <= 8:
-					return 4;
+						return 4;
 					case price > 8:
-					return 5;
+						return 5;
 					default:
-					return 0;
+						return 0;
+					}
 				}
 			}
 		}
-	}
 	);
 };
 

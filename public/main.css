@@ -19,7 +19,6 @@ body{
 
 .price{
     margin-top: 5px;
-    /*font-size: 70%*/
 }
 
 .title{
@@ -29,8 +28,6 @@ body{
 }
 
 #addToCart{
-    /*position: absolute;
-    left: 50%;*/
     text-align: center;
 }
 

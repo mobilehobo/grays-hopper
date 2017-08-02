@@ -53,7 +53,7 @@ module.exports = require('express')
 						user_id: +userId
 					},
 					include: [Beer]
-				})
+				});
 			})
 			.then((cartItems) => {
 				const promises = [];
@@ -66,9 +66,9 @@ module.exports = require('express')
 						order_id: orderId
 					};
 
-					promises.push(OrderItem.create(itemObj))
+					promises.push(OrderItem.create(itemObj));
 				}
-				return Bluebird.all(promises)
+				return Bluebird.all(promises);
 			})
 			.then(() => {
 				return CartItem.destroy({
