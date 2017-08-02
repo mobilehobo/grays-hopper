@@ -46,7 +46,7 @@ module.exports = app
 		secret: 'an inse23cuDre seAcret k45ey',
 		resave: false,
 		saveUninitialized: false,
-		cookie: {maxAge: 1000000}
+		cookie: { maxAge: 1000000 }
 	}))
 	// Body parsing middleware
 	.use(bodyParser.urlencoded({ extended: true }))
@@ -58,6 +58,10 @@ module.exports = app
 	.use(express.static(resolve(__dirname, '..', 'public')))
 	// Serve our api - ./api also requires in ../db, which syncs with our database
 	.use('/api', require('./api'))
+	// make link to github
+	.use('/github', (req, res, next) => {
+		res.redirect('https://github.com/mobilehobo/grays-hopper/');
+	})
 	// any requests with an extension (.js, .css, etc.) turn into 404
 	.use((req, res, next) => {
 		if (path.extname(req.path).length) {
